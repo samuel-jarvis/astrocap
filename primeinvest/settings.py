@@ -2,7 +2,6 @@ import django_heroku
 from django.contrib.messages import constants as messages
 import os
 from decouple import config
-
 import dj_database_url
 
 
