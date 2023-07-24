@@ -87,20 +87,37 @@ def forgottenPassword(request):
             print(otp)
 
             # create otp object with user id, otp and verified status
-            verification = Verification.objects.get(email=email)
-            verification.otp = otp
-            verification.save()
+            if Verification.objects.filter(email=email).exists():
+                verification = Verification.objects.get(email=email)
+                verification.otp = otp
+                verification.save()
 
-            subject = "Astrocapital Password Reset"
-            body = f'Hello {email}. \n \n Your OTP is {otp}'
-            from_email = settings.EMAIL_HOST_USER
-            to = [email]
+                subject = "Astrocapital Password Reset"
+                body = f'Hello {email}. \n \n Your OTP is {otp}'
+                from_email = settings.EMAIL_HOST_USER
+                to = [email]
 
-            message = EmailMessage(subject, body, from_email, to)
-            message.send()
+                message = EmailMessage(subject, body, from_email, to)
+                message.send()
 
-            messages.success(request, 'Check your email for OTP')
-            return redirect('resetPassword')
+                messages.success(request, 'Check your email for OTP')
+                return redirect('resetPassword')
+            
+            else: 
+                user = User.objects.get(username=email)
+                verification = Verification(user=user, otp=otp, verified=False, email=email)
+                verification.save()
+
+                subject = "Astrocapital Password Reset"
+                body = f'Hello {email}. \n \n Your OTP is {otp}'
+                from_email = settings.EMAIL_HOST_USER
+                to = [email]
+
+                message = EmailMessage(subject, body, from_email, to)
+                message.send()
+
+                messages.success(request, 'Check your email for OTP')
+                return redirect('resetPassword')
         else:
             messages.error(request, 'Email does not exist')
             return redirect('forgottenPassword')
