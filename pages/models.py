@@ -80,12 +80,29 @@ class Verification(models.Model):
     verified = models.BooleanField(default=False)
     email = models.CharField(max_length=100, blank=True, default='0',)
 
+TRANS_TYPE = (
+  ('Withdrawal', 'Withdrawal'),
+  ('Deposit', 'Deposit'),
+  ('Transfer', 'Transfer')
+)
 
+STATUS = (
+    ('Pending', 'Pending'),
+    ('Approved', 'Approved'),
+    ('Declined', 'Declined')
+)
 
+class Transaction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    trans_type = models.CharField(max_length=100, choices=TRANS_TYPE)
+    amount = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, choices=STATUS, default='Approved')
+    date = models.DateTimeField(default=datetime.now, blank=True)
+    # make admin name username
+    admin_name = models.CharField(max_length=100, default='0')
     
-
-
-
+    def __str__(self):
+        return self.admin_name
 
 
     

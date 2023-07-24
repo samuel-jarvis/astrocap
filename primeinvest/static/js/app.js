@@ -61,7 +61,7 @@ document.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
   if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
-    document.getElementById("navbar").style.backgroundColor = "#121d33";
+    document.getElementById("navbar").style.backgroundColor = "#181820";
   } else {
     document.getElementById("navbar").style.backgroundColor = "transparent";
   }

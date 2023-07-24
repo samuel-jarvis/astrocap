@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Contact, Balance, Bitcoin, Paypal, Bank, Verification
+from .models import Contact, Balance, Bitcoin, Paypal, Bank, Verification, Transaction
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -33,3 +33,9 @@ class VerificationAdmin(admin.ModelAdmin):
     list_display = ('email', 'verified' )
 
 admin.site.register(Verification, VerificationAdmin)
+
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'amount', 'admin_name')
+    search_fields = ('admin_name', 'amount', 'user')
+
+admin.site.register(Transaction, TransactionAdmin)

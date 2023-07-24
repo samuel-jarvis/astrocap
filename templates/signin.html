@@ -35,8 +35,13 @@
       <input type="password" name="password" id="password" required>
       <i class="bi bi-eye" id="togglePassword"></i>
 
+      <!-- forgotten password -->
+      <a href="{% url 'forgottenPassword' %}" style="color: black; font-size: 1.4rem; margin-top: 10px; ">forgot password?</a><br><br>
+
       <input id="form-btn" type="submit" value="Sign In">
-      <p style="color: black; font-size: 1.4rem; margin-top: 10px; ">don't have an account? <a href="{% url 'signup' %}">register now</a></p>
+      <p style="color: black; font-size: 1.4rem; margin-top: 10px; ">
+        don't have an account? <a href="{% url 'signup' %}">register now</a>
+      </p>
 
   </form>
   </div>

@@ -13,7 +13,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
-from .models import Contact, Bitcoin, Paypal, Bank, Verification
+from .models import Contact, Bitcoin, Paypal, Bank, Verification, Transaction
 
 
 # Create your views here.
@@ -103,9 +103,9 @@ def forgottenPassword(request):
             return redirect('resetPassword')
         else:
             messages.error(request, 'Email does not exist')
-            return redirect('resetPassword')
+            return redirect('forgottenPassword')
     else:
-        return render(request, 'resetPassword.html')
+        return render(request, 'forgottenPassword.html')
     
 def resetPassword(request):
     if request.method == 'POST':
@@ -148,10 +148,24 @@ def contact(request):
 
     return render(request, 'contact.html')
 
+def transactions(request):
+  invests = Transaction.objects.filter(user=request.user)
+  context = {
+      'invests': invests
+  }
+  print(invests)
+  return render(request, 'transactions.html', context)
 
 def dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'dashboard.html')
+    else:
+        return redirect('login')
+    
+
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request, 'profile.html')
     else:
         return redirect('login')
 
@@ -182,11 +196,13 @@ def signin(request):
 
             user = auth.authenticate(username=username, password=password)
 
-            # # if user is not verified
-            # verification = Verification.objects.get(user=user)
-            # if verification.verified == False:
-            #     messages.error(request, 'Please verify your email')
-            #     return redirect('verification')
+            # create otp object if user dont' have for existing users
+            if Verification.objects.filter(user=user).exists():
+                print('user exists')
+
+            else:
+                verification = Verification(user=user, otp=000000, verified=True, email=username)
+                verification.save()
 
             if user is not None:
                 auth.login(request, user)

@@ -14,9 +14,8 @@
 }
 
 .user {
-  color: var(--primary-blue);
-  padding: 2rem;
-  margin: 2rem 0;
+  color: var(--blue);
+  padding: 2.5rem 2.5rem;
   border-radius: 1rem;
   background-color: white;
   display: flex;
@@ -48,15 +47,16 @@
 .dashboard-header {
   font-size: 3rem;
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 2rem;
-  color: var(--primary-blue);
+  color: var(--blue);
 }
 
 .balance-group {
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
+  margin-top: 2rem;
 }
 
 @media only screen and (max-width: 500px) {
@@ -69,7 +69,9 @@
 
 .balance {
   padding: 3rem 2rem;
-  background-color: white;
+  background-color: var(--blue);
+  color: white;
+  /* background-color: white; */
   border-radius: 1rem;
   flex: 0 0 30%;
   margin: 0 0.5rem;
@@ -93,16 +95,16 @@
 
 .amount-svg {
   height: 4.5rem;
-  fill: var(--primary-yellow);
+  fill: var(--yellow);
   display: none;
   /* flex: 0 0 10%; */
 }
 
 .amount {
-  font-size: 3rem;
+  font-size: 4rem;
   padding-top: 1.5rem;
   font-weight: 600;
-  color: var(--primary-blue);
+  color: var(--yellow);
   text-align: left;
   flex: 0 0 70%;
 }
@@ -111,7 +113,7 @@
   font-size: 1.6rem;
   padding-top: 1rem;
   font-weight: 500;
-  color: black;
+  color: white;
 }
 
 .status-group {
@@ -143,8 +145,8 @@
 
 .status-header {
   font-size: 1.8rem;
-  background-color: var(--primary-blue);
-  color: white;
+  background-color: var(--blue);
+  color: var(--yellow);
   border-radius: 5rem;
   padding: 1rem;
   padding-left: 2rem;
@@ -156,7 +158,7 @@
   justify-content: space-between;
   margin: 2rem 1rem;
   margin-bottom: 1rem;
-  color: var(--primary-blue);
+  color: var(--blue);
   padding-left: 1rem;
 }
 
@@ -193,7 +195,7 @@ input[type=file] {
   /* font-weight: bold; */
   font-size: 1.6rem;
   text-decoration: none;
-  background-color: var(--primary-blue);
+  background-color: var(--blue);
   color: white;
   /* margin-top: 2rem; */
   margin-left: 1rem;

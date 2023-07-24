@@ -15,7 +15,7 @@
   padding: 2rem 4rem;
   width: 100%;
   margin: 2rem;
-  background-color: #121d33;
+  background-color: var(--blue);
   border-radius: 1rem;
 }
 
@@ -27,7 +27,7 @@
 
 .withdrawal-type  {
   font-size: 2.2rem;
-  color: white;
+  color: var(--yellow);
   margin: 2rem 0;
 
 }
@@ -61,7 +61,7 @@ label {
 
 input[type=submit] {
   color: white;
-  background-color: var(--primary-blue);
+  background-color: var(--blue);
   padding: 1rem 2rem;
   outline: none;
   margin: 0 auto;

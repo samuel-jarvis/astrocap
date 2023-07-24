@@ -6,8 +6,8 @@
   bottom: 0;
   overflow: auto;
   padding-top: 5rem;
-  width: 25rem;
-  background-color: var(--primary-blue);
+  width: 30rem;
+  background-color: var(--blue);
   padding: 5rem 1rem 0 2rem;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .nav-links a {
-  font-weight: bold;
+  font-weight: 500;
   padding-left: 1rem;
 }
 
@@ -45,7 +45,8 @@
 }
 
 .main-section {
-  padding-left: 25rem;
+  padding-left: 30rem;
+  min-height: 95vh;
 }
 
 @media only screen and (max-width: 800px) {
@@ -57,7 +58,7 @@
   .nav-links .closebtn {
     display: block;
     position: absolute;
-    top: 3rem;
+    top: 2rem;
     right: 3rem;
     font-size: 2rem;
   }
@@ -102,7 +103,7 @@
 #menuButton {
   display: block;
   font-size: 2rem;
-  color: var(--primary-blue);
+  color: var(--blue);
 }
 
 @media only screen and (max-width: 800px) {
@@ -112,3 +113,85 @@
   }
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 1.6rem;
+}
+
+th {
+  font-weight: bold;
+}
+
+td, th {
+  /* border: 1px solid #dddddd; */
+  text-align: left;
+  padding: 2rem 0.8rem;
+}
+
+tr:nth-child(odd) {
+  background-color: #eaeaea;
+}
+
+
+/* profile information */
+/* Profile styling */
+.profile {
+  /* border: 1px solid var(--secondary); */
+  padding: 2rem;
+  max-width: 60rem;
+}
+
+.profile-image {
+  background-color: var(--bg);
+  text-align: center;
+  width: 10rem;
+  height: 10rem;
+  margin: 2rem auto;
+  border-radius: 5rem;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5rem;
+  object-fit: cover;
+}
+
+
+.profile-image .bi {
+  font-size: 8rem;
+  color: var(--primary);
+}
+
+.profile-info {
+  margin: 4rem 0;
+}
+
+.profile-heading {
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: var(--primary);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--yellow);
+}
+
+.profile-info-g {
+  margin: 2rem 0;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.profile-info-g .key {
+  font-size: 1.6rem;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+}
+
+.profile-info-g .value {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--primary);
+  /* margin: 2rem 0; */
+}
