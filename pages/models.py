@@ -39,7 +39,6 @@ class Bank(models.Model):
 class Deposits(models.Model):
     user_id = models.IntegerField()
     username = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='images/')
     deposit_date = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
@@ -75,6 +74,11 @@ class Contact(models.Model):
         return self.name 
 
 
+class Verification(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    otp = models.IntegerField(blank=True, default='0',)
+    verified = models.BooleanField(default=False)
+    email = models.CharField(max_length=100, blank=True, default='0',)
 
 
 

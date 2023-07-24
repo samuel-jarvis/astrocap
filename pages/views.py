@@ -1,3 +1,4 @@
+from random import randint
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
@@ -12,17 +13,124 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
-from .models import Contact, Bitcoin, Paypal, Bank
+from .models import Contact, Bitcoin, Paypal, Bank, Verification
 
 
 # Create your views here.
 def index(request):
+    otp = randint(100000, 999999)
+    print(otp)
     return render(request, 'index.html')
 
 
 def about(request):
+    user = request.user
+    # get user email
+    print(user.first_name)
     return render(request, 'about.html')
 
+def resendOtp(request):
+    if request.user.is_authenticated:
+        # set the user verification.otp to the new otp
+        user = request.user
+        
+        verification = Verification.objects.get(user=user)
+
+        # generate 6 digit otp
+        otp = randint(100000, 999999)
+
+        verification.otp = otp
+        verification.save()
+
+        subject = "Your Astrocapital OTP"
+        body = f'Hello {user.first_name}. \n Your OTP is {otp}'
+        from_email = settings.EMAIL_HOST_USER
+
+        message = EmailMessage(subject, body, from_email, [user.username])
+        message.send()
+
+        messages.success(request, 'Check your email for OTP')
+        return redirect('verification')
+    else:
+        return redirect('signin')
+
+def verification(request):
+    # check otp
+    if request.method == 'POST':
+        otp = request.POST['otp']
+        user = request.user
+        verification = Verification.objects.get(user=request.user)
+
+        print(otp)
+        print(verification.otp)
+
+        if otp == str(verification.otp):
+            print('otp verified')
+            verification.verified = True
+            verification.save()
+            return redirect('dashboard')
+        
+        else:
+            messages.error(request, 'Invalid OTP')
+            return redirect('verification')
+        
+    return render(request, 'verification.html')
+
+def forgottenPassword(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+
+        # check if email exists
+        if User.objects.filter(username=email).exists():
+            # generate 6 digit otp
+            otp = randint(100000, 999999)
+            print(otp)
+
+            # create otp object with user id, otp and verified status
+            verification = Verification.objects.get(email=email)
+            verification.otp = otp
+            verification.save()
+
+            subject = "Astrocapital Password Reset"
+            body = f'Hello {email}. \n \n Your OTP is {otp}'
+            from_email = settings.EMAIL_HOST_USER
+            to = [email]
+
+            message = EmailMessage(subject, body, from_email, to)
+            message.send()
+
+            messages.success(request, 'Check your email for OTP')
+            return redirect('resetPassword')
+        else:
+            messages.error(request, 'Email does not exist')
+            return redirect('resetPassword')
+    else:
+        return render(request, 'resetPassword.html')
+    
+def resetPassword(request):
+    if request.method == 'POST':
+        otp = request.POST['otp']
+        password = request.POST['password']
+        password2 = request.POST['password2']
+
+        if password == password2:
+            verification = Verification.objects.get(otp=otp)
+
+            if otp == str(verification.otp):
+                user = User.objects.get(username=verification.email)
+                user.set_password(password)
+                user.save()
+
+                messages.success(request, 'Password Reset Successful')
+                return redirect('signin')
+            else:
+                messages.error(request, 'Invalid OTP')
+                return redirect('resetPassword')
+        else:
+            messages.error(request, 'Passwords do not match')
+            return redirect('resetPassword')
+
+    return render(request, 'resetPassword.html')
 
 def contact(request):
     if request.method == 'POST':
@@ -61,6 +169,11 @@ def forgot(request):
 
 def signin(request):
     if request.user.is_authenticated:
+        verification = Verification.objects.get(user=request.user)
+
+        if verification.verified == False:
+            return redirect('verification')
+        
         return render(request, 'dashboard.html')
     else:
         if request.method == 'POST':
@@ -68,6 +181,12 @@ def signin(request):
             password = request.POST['password']
 
             user = auth.authenticate(username=username, password=password)
+
+            # # if user is not verified
+            # verification = Verification.objects.get(user=user)
+            # if verification.verified == False:
+            #     messages.error(request, 'Please verify your email')
+            #     return redirect('verification')
 
             if user is not None:
                 auth.login(request, user)
@@ -99,22 +218,30 @@ def signup(request):
                     username=username, password=password, first_name=first_name, last_name=last_name)
                 user.save()
 
+                user = auth.authenticate(username=username, password=password)
+                auth.login(request, user)
+
+                # generate 6 digit otp
+                otp = randint(100000, 999999)
+                print(otp)
+
+                # create otp object with user id, otp and verified status
+                verification = Verification(user=user, otp=otp, verified=False, email=username)
+                verification.save()
+
                 subject = "Welcome to AstroCapital Investment"
-                message = f'Hello {username}, thank you for signing up to our platform'
+                body = f'Hello {username}. \n \n Thank you for signing up to our platform \n \n Your OTP is {otp}'
                 from_email = settings.EMAIL_HOST_USER
                 to = [username]
 
-                html_message = render_to_string(
-                    'email.html', {'first_name': first_name})
-                message = EmailMessage(subject, html_message, from_email, [to])
-                message.content_subtype = 'html'
-                # message.send()
+                # html_message = render_to_string('email.html', {'first_name': first_name, 'last_name': last_name})
+                message = EmailMessage(subject, body, from_email, to)
+                # message.content_subtype = 'html'
+                message.send()
 
-                # send_email(subject, email_from, ['to',] , html_message = html_message)
-
-                messages.success(
-                    request, 'You are now registered and can log in')
-                return redirect('signin')
+                # messages.success(
+                #     request, 'Verify your email to continue')
+                return redirect('verification')
         else:
             messages.error(request, "Passwords do not Match")
             return redirect('signup')

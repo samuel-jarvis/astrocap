@@ -12,7 +12,11 @@ urlpatterns = [
   path('deposit', views.deposit, name='deposit'),
   path('forgot', views.forgot, name='forgot'),
   path('signin', views.signin, name='signin'),
+  path('forgottenPassword', views.forgottenPassword, name='forgottenPassword'),
+  path('resetPassword', views.resetPassword, name='resetPassword'),
   path('signup', views.signup, name='signup'),
+  path('verification', views.verification, name='verification'),
+  path('resendOtp', views.resendOtp, name='resendOtp'),
   path('withdraw', views.withdraw, name='withdraw'),
   path('logout', views.logout, name='logout'),
 ]

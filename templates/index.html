@@ -11,7 +11,7 @@
 <body>
   <!-- Billboard -->
   <main class="billboard bill2"
-    style="background-image: linear-gradient( 102deg, rgba(4, 8, 36, 0.534) 0%, rgba(0, 11, 25, 0.849) 100%), url(https://images.unsplash.com/photo-1635236198091-33d5aa8466cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80); background-repeat: no-repeat; background-size: cover;">
+    style="background-image: linear-gradient( 102deg, rgba(4, 8, 36, 0.534) 0%, rgba(0, 11, 25, 0.849) 100%), url(https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1102&q=80); background-repeat: no-repeat; background-size: cover;">
     <div class="billboard-content content-2">
       <h1 class="billboard-header" data-aos="fade-down" data-aos-duration="1000">Multiply your assest with invesment you
         can trust.</h1>
@@ -21,73 +21,6 @@
       <a href="{% url 'signin' %}" class="btn btn-bill" data-aos="fade-up" data-aos-duration="1000">Get Started</a>
     </div>
   </main>
-  <coingecko-coin-price-marquee-widget coin-ids="bitcoin,ethereum,eos,ripple,litecoin" currency="usd"
-    background-color="" locale="en"></coingecko-coin-price-marquee-widget>
-
-  <!-- Investment Packages -->
-  <section class="investments">
-    <h2 class="main-heading" style="color: #121d33;">Investment Plans</h2>
-    <p class="sub-heading">Investment plans for our members.</p>
-
-    <div class="invest-group">
-      <div class="investment-plan">
-        <div class="invest-center">
-          <p class="invest-type">Starter</p>
-          <p class="invest-percent">25%</p>
-          <div class="invest-p">
-            <p class="invest-return">Time - 48 Hrs</p>
-            <!-- <p>Return - $2000</p> -->
-            <p>minimum - $1000</p>
-            <p>maximum - $5000</p>
-          </div>
-
-        </div>
-        <!-- <a href="{% url 'signin' %}" class="btn btn-invest">Invest Now</a> -->
-      </div>
-
-      <div class="investment-plan">
-        <div class="invest-center">
-          <p class="invest-type">Plus</p>
-          <p class="invest-percent">45%</p>
-          <div class="invest-p">
-            <p class="invest-return">Time - 48 Hrs</p>
-            <!-- <p>For 4 times</p> -->
-            <p>minimum - $5,000</p>
-            <p>minimum - $10,000</p>
-          </div>
-
-        </div>
-        <!-- <a href="{% url 'signin' %}" class="btn btn-invest center">Invest Now</a> -->
-      </div>
-
-      <div class="investment-plan">
-        <div class="invest-center">
-          <p class="invest-type">Premium</p>
-          <p class="invest-percent">50%</p>
-          <div class="invest-p">
-            <p class="invest-return">Time - 48 Hrs</p>
-            <!-- <p>For 4 times</p> -->
-            <p>minimum - $10,000</p>
-            <p>maximum - $20,000</p>
-          </div>
-        </div>
-        <!-- <a href="{% url 'signin' %}" class="btn btn-invest center">Invest Now</a> -->
-      </div>
-
-      <div class="investment-plan">
-        <div class="invest-center">
-          <p class="invest-type">Professional</p>
-          <p class="invest-percent">65%</p>
-          <div class="invest-p">
-            <p class="invest-return">Time - 48 hrs</p>
-            <p>minimum - $20,000</p>
-            <p>maximum - $50,000</p>
-          </div>
-        </div>
-        <!-- <a href="{% url 'signin' %}" class="btn btn-invest center">Invest Now</a> -->
-      </div>
-    </div>
-  </section>
 
   <section class="why-invest">
 
@@ -233,6 +166,71 @@
         <p class="stat-name">Withdrawal</p>
       </div>
 
+    </div>
+  </section>
+
+  <!-- Investment Packages -->
+  <section class="investments">
+    <h2 class="main-heading" style="color: #121d33;">Investment Plans</h2>
+    <p class="sub-heading">Investment plans for our members.</p>
+
+    <div class="invest-group">
+      <div class="investment-plan">
+        <div class="invest-center">
+          <p class="invest-type">Basic</p>
+          <p class="invest-percent">25%</p>
+          <div class="invest-p">
+            <p class="invest-return">Time - 2 Weeks</p>
+            <!-- <p>Return - $2000</p> -->
+            <p>minimum - $2000</p>
+            <p>maximum - $5000</p>
+          </div>
+
+        </div>
+        <!-- <a href="{% url 'signin' %}" class="btn btn-invest">Invest Now</a> -->
+      </div>
+
+      <div class="investment-plan">
+        <div class="invest-center">
+          <p class="invest-type">Plus</p>
+          <p class="invest-percent">45%</p>
+          <div class="invest-p">
+            <p class="invest-return">Time - 4 Weeks</p>
+            <!-- <p>For 4 times</p> -->
+            <p>minimum - $5,000</p>
+            <p>minimum - $10,000</p>
+          </div>
+
+        </div>
+        <!-- <a href="{% url 'signin' %}" class="btn btn-invest center">Invest Now</a> -->
+      </div>
+
+      <div class="investment-plan">
+        <div class="invest-center">
+          <p class="invest-type">Premium</p>
+          <p class="invest-percent">50%</p>
+          <div class="invest-p">
+            <p class="invest-return">Time - 6 Weeks</p>
+            <!-- <p>For 4 times</p> -->
+            <p>minimum - $10,000</p>
+            <p>maximum - $20,000</p>
+          </div>
+        </div>
+        <!-- <a href="{% url 'signin' %}" class="btn btn-invest center">Invest Now</a> -->
+      </div>
+
+      <div class="investment-plan">
+        <div class="invest-center">
+          <p class="invest-type">Professional</p>
+          <p class="invest-percent">65%</p>
+          <div class="invest-p">
+            <p class="invest-return">Time - 8 Weeks</p>
+            <p>minimum - $20,000</p>
+            <p>maximum - $50,000</p>
+          </div>
+        </div>
+        <!-- <a href="{% url 'signin' %}" class="btn btn-invest center">Invest Now</a> -->
+      </div>
     </div>
   </section>
 

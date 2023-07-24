@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -64,25 +64,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'primeinvest.wsgi.application'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # # Database
 # # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fxpro',
-#         'USER': 'postgres',
-#         'PASSWORD': 'operator',
-#         'HOST': 'localhost'
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default="postgresql://postgres:0vcilqyRy7d8Go52a0QT@containers-us-west-188.railway.app:7280/railway"
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'astro',
+        'USER': 'postgres',
+        'PASSWORD': 'operator',
+        'HOST': 'localhost'
+    }
 }
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default="postgresql://postgres:0vcilqyRy7d8Go52a0QT@containers-us-west-188.railway.app:7280/railway"
+#     )
+# }
 
 
 # Password validation
@@ -140,47 +141,48 @@ django_heroku.settings(locals())
 
 # Email Configuration for New sign up
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'astrocapitalinvestment01@gmail.com'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'support@astrocapital.co'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
-                       'pathname=%(pathname)s lineno=%(lineno)s ' +
-                       'funcname=%(funcName)s %(message)s'),
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        }
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'testlogger': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        }
-    }
-}
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 465
 
-DEBUG_PROPAGATE_EXCEPTIONS = True
-COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
+#                        'pathname=%(pathname)s lineno=%(lineno)s ' +
+#                        'funcname=%(funcName)s %(message)s'),
+#             'datefmt': '%Y-%m-%d %H:%M:%S'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(message)s'
+#         }
+#     },
+#     'handlers': {
+#         'null': {
+#             'level': 'DEBUG',
+#             'class': 'logging.NullHandler',
+#         },
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose'
+#         }
+#     },
+#     'loggers': {
+#         'testlogger': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#         }
+#     }
+# }
+
+# DEBUG_PROPAGATE_EXCEPTIONS = True
+# COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURE_SSL_REDIRECT = True

@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+  @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root {
-  --primary-blue: #121d33;
-  --secondary-blue: #006cf2;
+  --blue: #06132f;
+  --yellow: rgb(212, 149, 57);
   --bg-ash: #f2f2f2;
 }
 
@@ -17,7 +19,8 @@
 
 html {
   font-size: 62.5%; 
-  font-family: 'Inter', sans-serif;
+  /* font-family: 'Inter', sans-serif; */
+  font-family: 'Jost', sans-serif;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -80,8 +83,7 @@ body {
 
 .button {
   padding: 1rem 1.5rem;
-  border: 1px solid white;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 
@@ -93,6 +95,16 @@ body {
 
 .nav-links .closebtn {
   display: none;
+}
+
+.cta .btn {
+  margin-top: 3rem;
+}
+
+a.button.btn-login{
+  color: var(--blue);
+  background-color: var(--yellow);
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 800px) {
@@ -125,7 +137,7 @@ body {
     padding: 8px 8px 8px 8px;
     text-decoration: none;
     font-size: 1.8rem;
-    color: var(--primary-blue);
+    color: var(--blue);
     display: block;
     transition: 0.3s;
     text-align: center;
@@ -159,17 +171,17 @@ body {
 }
 
 .btn-bill {
-  background-color: var(--secondary-blue);
+  background-color: var(--yellow);
 }
 
 .btn-invest {
-  background-color: var(--secondary-blue);
+  background-color: var(--yellow);
 }
 
 /* Heading styling */
 .main-heading {
   font-size: 3.6rem;
-  color: var(--primary-blue);
+  color: var(--blue);
   font-weight: 700;
 }
 
@@ -325,7 +337,7 @@ body {
   flex: 1 1 0px;
   background-color: white;
   box-shadow: 2px 2px 2px 1px var(--primary-yellow);
-  /* border: 1px solid var(--secondary-blue); */
+  /* border: 1px solid var(--yellow); */
 }
 
 @media only screen and (max-width: 800px) {
@@ -355,7 +367,7 @@ body {
 .usp-svg {
   width: 8rem;
   height: 8rem;
-  stroke: var(--secondary-blue);
+  stroke: var(--yellow);
   text-align: center;
   margin: auto;
   stroke-width: 1;
@@ -368,7 +380,7 @@ body {
 }
 
 .usp-othertext {
-  color: var(--primary-blue);
+  color: var(--blue);
   font-size: 1.6rem;
 }
 
@@ -376,7 +388,7 @@ body {
   margin-bottom: 1rem;
   font-size: 2rem;
   font-weight: bold;
-  color: var(--primary-blue)
+  color: var(--blue)
 }
 
 .widget {
@@ -389,7 +401,7 @@ body {
 }
 
 .statistics {
-  background-color: var(--primary-blue);
+  background-color: var(--blue);
   padding: 5rem 10rem;
   /* border-radius: 8rem 0 8rem 0; */
 }
@@ -432,7 +444,7 @@ body {
 }
 
 .stat-name {
-  color: var(--secondary-blue);
+  color: var(--yellow);
   font-size: 2rem;
   margin-top: 2rem;
   font-weight: 500;
@@ -482,7 +494,7 @@ body {
 
 .step-heading {
   font-size: 2rem;
-  color: var(--secondary-blue);
+  color: var(--yellow);
   font-weight: 500;
   margin: 1.5rem 0;
   margin-bottom: 1rem;
@@ -490,7 +502,7 @@ body {
 
 .start-text {
   font-size: 1.6rem;
-  color: var(--primary-blue);
+  color: var(--blue);
 }
 
 @media only screen and (max-width: 600px) {
@@ -512,7 +524,7 @@ body {
 
   .start-text {
     font-size: 1.8rem;
-    color: var(--primary-blue);
+    color: var(--blue);
   }
 }
 
@@ -563,7 +575,7 @@ body {
 
 .invest-price {
   font-size: 2rem;
-  color: var(--primary-blue);
+  color: var(--blue);
   font-weight: 600;
   padding: 1rem 0;
   text-align: center;
@@ -582,7 +594,7 @@ body {
 
 .invest-type {
   /* font-weight: bold; */
-  color: var(--secondary-blue);
+  color: var(--yellow);
   font-size: 2rem;
   text-transform: uppercase;
 }
@@ -594,20 +606,20 @@ body {
 
 .invest-details {
   padding: 0.5rem 0.5rem;
-  /* color: var(--primary-blue); */
+  /* color: var(--blue); */
   color: #0C6CF2;
 }
 
 /* New Invest */
 .invest-percent {
   font-size: 4rem;
-  color: var(--primary-blue);
+  color: var(--blue);
   font-weight: 600;
   margin: 1rem 0;
 }
 
 .invest-p p {
-  color: var(--primary-blue);
+  color: var(--blue);
   font-size: 1.6rem;
   line-height: 1.5;
   margin: 1rem;
@@ -623,7 +635,7 @@ body {
 .invest-size {
   display: flex;
   justify-content: space-between;
-  color: var(--secondary-blue);
+  color: var(--yellow);
   margin: 3rem 0;
   font-weight: bold;
   font-size: 1.4rem;
@@ -645,8 +657,8 @@ body {
   padding: 6rem 6rem;
   justify-content: space-between;
   background-color: var(--bg-ash);
-  border-top: 1px solid var(--primary-blue);
-  border-bottom: 1px solid var(--primary-blue);
+  border-top: 1px solid var(--blue);
+  border-bottom: 1px solid var(--blue);
   padding-bottom: 4rem;
 }
 
@@ -702,7 +714,7 @@ body {
 
 .testimony-name {
   font-size: 2rem;
-  color: var(--primary-blue);
+  color: var(--blue);
   font-weight: 500;
 }
 
@@ -774,20 +786,13 @@ video {
   }
 }
 
-.cta .btn {
-  margin-top: 3rem;
-}
 
-a.button.btn-login{
-  /* border: 0; */
-  /* background-color: #006cf2; */
-}
 
 /* Footer Styling */
 
 .footer {
   padding: 5rem 8rem;
-  background-color: var(--primary-blue);
+  background-color: var(--blue);
   display: flex;
   justify-content: space-between;
 }
@@ -812,7 +817,7 @@ a.button.btn-login{
 
 .footer-heading {
   font-size: 2rem;
-  color: var(--secondary-blue);
+  color: var(--yellow);
   padding-bottom: 1rem;
   font-weight: 400;
 }

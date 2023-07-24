@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+
+<head>
+
+  <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sign.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <title>Sign In | AstroCapital</title>
+</head>
+
+<!-- style="background-image: linear-gradient(102deg, rgba(5, 11, 59, 0.411) 0%, rgba(0, 11, 25, 0.849) 100%), url(https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80); height: 30px;" -->
+
+
+<!-- Billboarrd -->
+<main class="billboard" style="background-color: #121d33;">
+
+</main>
+
+<!-- Contact Us -->
+<div class="form signup" style="margin: 70px auto;">
+  <form id="log-in" method="POST" action="{% url 'verification' %}">
+
+    {% csrf_token%}
+
+    <h2 class="form-header">Enter the OTP you received</h2>
+    {% include '_alert.html' %}
+
+    <p style="
+    color: black;
+    font-size: 1.2rem;
+    margin: 10px 0;
+    ">
+      Enter the OTP sent to your email address
+      <span style="color: rgb(212, 149, 57); font-weight: bold;">{{ user.username }}</span>
+    </p>
+
+
+    <label for="otp">OTP:</label><br>
+    <input type="number" name="otp" id="otp" required>
+    <i class="bi bi-eye" id="togglePassword"></i>
+
+    <!-- resend otp -->
+    <p style="color: black; font-size: 1.2rem; margin: 10px 0; ">Didn't receive OTP? <a
+        href="{% url 'resendOtp' %}">Resend OTP</a></p>
+
+    <input id="form-btn" type="submit" value="Submit">
+    <!-- <p style="color: black; font-size: 1.4rem; margin-top: 30px; text-align: center; ">Don't have an account? <a
+        href="{% url 'signup' %}">Register Now</a></p> -->
+
+  </form>
+</div>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+{% endblock %}
