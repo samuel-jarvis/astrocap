@@ -197,15 +197,17 @@ def signin(request):
             user = auth.authenticate(username=username, password=password)
 
             # create otp object if user dont' have for existing users
-            if Verification.objects.filter(user=user).exists():
-                print('user exists')
-
-            else:
-                verification = Verification(user=user, otp=000000, verified=True, email=username)
-                verification.save()
-
+           
             if user is not None:
                 auth.login(request, user)
+                # 
+                if Verification.objects.filter(user=user).exists():
+                    print('user exists')
+
+                else:
+                    verification = Verification(user=user, otp=000000, verified=True, email=username)
+                    verification.save()
+
                 # messages.success(request, 'You are now logged in')
                 return redirect('dashboard')
             else:
