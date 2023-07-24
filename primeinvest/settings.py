@@ -69,15 +69,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # # Database
 # # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'astro',
-#         'USER': 'postgres',
-#         'PASSWORD': 'operator',
-#         'HOST': 'localhost'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'astro',
+        'USER': 'postgres',
+        'PASSWORD': 'operator',
+        'HOST': 'localhost'
+    }
+}
 
 DATABASES = {
     'default': dj_database_url.config(
