@@ -200,10 +200,12 @@ def forgot(request):
 
 def signin(request):
     if request.user.is_authenticated:
-        verification = Verification.objects.get(user=request.user)
+        user = request.user
+        if Verification.objects.filter(user=user).exists():
+            verification = Verification.objects.get(user=request.user)
 
-        if verification.verified == False:
-            return redirect('verification')
+            if verification.verified == False:
+                return redirect('verification')
         
         return render(request, 'dashboard.html')
     else:
