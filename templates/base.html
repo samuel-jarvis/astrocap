@@ -21,6 +21,17 @@
       rel="stylesheet"
       href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
+    <script type="text/javascript">
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID = "84a7c725-8163-4681-839a-ce4ea6c9ae32";
+      (function () {
+        d = document;
+        s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+      })();
+    </script>
   </head>
 
   <body>
@@ -29,7 +40,11 @@
       <nav class="nav" id="navbar">
         <div class="nav-image">
           <a href="{% url 'index' %}">
-            <img src="https://i.ibb.co/SdLGzwd/Group-2.png" alt="Group-2" border="0">
+            <img
+              src="https://i.ibb.co/SdLGzwd/Group-2.png"
+              alt="Group-2"
+              border="0"
+            />
           </a>
         </div>
 
@@ -129,19 +144,5 @@
     <script>
       AOS.init();
     </script>
-
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-  (function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/64dcb5dbcc26a871b02f9130/1h7v2cp1v';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
-  })();
-  </script>
-  <!--End of Tawk.to Script-->
   </body>
 </html>
