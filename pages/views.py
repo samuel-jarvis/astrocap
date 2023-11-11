@@ -24,9 +24,6 @@ def index(request):
 
 
 def about(request):
-    user = request.user
-    # get user email
-    print(user.first_name)
     return render(request, 'about.html')
 
 def resendOtp(request):
@@ -177,21 +174,21 @@ def dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'dashboard.html')
     else:
-        return redirect('login')
+        return redirect('signin')
     
 
 def profile(request):
     if request.user.is_authenticated:
         return render(request, 'profile.html')
     else:
-        return redirect('login')
+        return redirect('signin')
 
 
 def deposit(request):
     if request.user.is_authenticated:
         return render(request, 'deposit.html')
     else:
-        return redirect('login')
+        return redirect('signin')
 
 
 def forgot(request):
@@ -337,4 +334,4 @@ def withdraw(request):
             return render(request, 'withdraw.html')
 
     else:
-        return redirect('login')
+        return redirect('signin')
