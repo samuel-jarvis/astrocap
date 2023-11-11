@@ -67,7 +67,7 @@ class Contact(models.Model):
     name = models.CharField(max_length=100, blank=True)
     email = models.CharField(max_length=100, blank=True)
     country = models.CharField(max_length=100, blank=True)
-    phone = models.IntegerField(blank=True)
+    phone = models.CharField(max_length=100, blank=True)
     message = models.CharField(max_length=100, blank=True)
 
     def __str__(self): 
