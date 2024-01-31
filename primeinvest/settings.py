@@ -81,7 +81,7 @@ DATABASES = {
 
 DATABASES = {
     'default': dj_database_url.config(
-        default="postgresql://postgres:0vcilqyRy7d8Go52a0QT@containers-us-west-188.railway.app:7280/railway"
+        default="postgresql://postgres:FcAfGGBbA1B2c3E2GeceCA43Eba2B5DA@roundhouse.proxy.rlwy.net:26957/railway"
     )
 }
 
