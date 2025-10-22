@@ -17,7 +17,6 @@
   </div>
   {% include '_alert.html' %}
 
-
   <div class="withdraw_group">
     <div class="withdrawal-card">
       <h2 class="withdrawal-type">Bitcoin</h2>
@@ -39,7 +38,7 @@
             {% endif %}
             <div class="form-group">
               <label for="address">Amount</label>
-              <input type="text" name=amount required>
+              <input type="number" name=amount required>
             </div>
             <div class="form-group">
               <label for="address">Wallet Address</label>
@@ -102,7 +101,7 @@
             {% endif %}
             <div class="form-group">
               <label for="address">Amount</label>
-              <input type="text" name="amount" required>
+              <input type="number" name="amount" required>
             </div>
             <div class="form-group">
               <label for="address">Account Name</label>
@@ -123,6 +122,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}
