@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Bitcoin(models.Model):
-    amount = models.IntegerField()
+    amount = models.BigIntegerField()
     wallet = models.TextField(max_length=100)
     withdrawal_date = models.DateTimeField(default=datetime.now, blank=True)
     username = models.CharField(max_length=100, default='0')
@@ -15,7 +15,7 @@ class Bitcoin(models.Model):
         return self.username 
 
 class Paypal(models.Model):
-    amount = models.IntegerField()
+    amount = models.BigIntegerField()
     email = models.TextField(max_length=100)
     withdrawal_date = models.DateTimeField(default=datetime.now, blank=True)
     username = models.CharField(max_length=100, default='0')
@@ -24,10 +24,10 @@ class Paypal(models.Model):
         return self.username 
 
 class Bank(models.Model):
-    amount = models.IntegerField()
+    amount = models.BigIntegerField()
     account_name = models.TextField(max_length=100)
     bank_name = models.TextField(max_length=100)
-    account_number = models.IntegerField()
+    account_number = models.BigIntegerField()
 
     withdrawal_date = models.DateTimeField(default=datetime.now, blank=True)
     username = models.CharField(max_length=100, default='0')
@@ -37,7 +37,7 @@ class Bank(models.Model):
 
 
 class Deposits(models.Model):
-    user_id = models.IntegerField()
+    user_id = models.BigIntegerField()
     username = models.CharField(max_length=100)
     deposit_date = models.DateTimeField(default=datetime.now, blank=True)
 

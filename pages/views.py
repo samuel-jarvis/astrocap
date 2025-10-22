@@ -299,7 +299,7 @@ def withdraw(request):
             wallet = request.POST['wallet']
             username = request.POST['username']
 
-            withdraw = Bitcoin(amount=amount, wallet=wallet, username=username)
+            withdraw = Bitcoin(amount=float(amount), wallet=wallet, username=username)
 
             withdraw.save()
 
@@ -311,7 +311,7 @@ def withdraw(request):
             email = request.POST['email']
             username = request.POST['username']
 
-            withdraw = Paypal(amount=amount, email=email, username=username)
+            withdraw = Paypal(amount=float(amount), email=email, username=username)
 
             withdraw.save()
 
@@ -319,7 +319,7 @@ def withdraw(request):
             return render(request, 'withdraw.html')
 
         if request.method == 'POST' and 'bank' in request.POST:
-            amount = request.POST['amount']
+            amount = float(request.POST['amount'])
             account_name = request.POST['accountname']
             bank_name = request.POST['bankname']
             account_number = request.POST['accountnumber']
