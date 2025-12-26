@@ -26,11 +26,12 @@ def index(request):
 def about(request):
     return render(request, 'about.html')
 
+
 def resendOtp(request):
     if request.user.is_authenticated:
         # set the user verification.otp to the new otp
         user = request.user
-        
+
         verification = Verification.objects.get(user=user)
 
         # generate 6 digit otp
@@ -51,6 +52,7 @@ def resendOtp(request):
     else:
         return redirect('signin')
 
+
 def verification(request):
     # check otp
     if request.method == 'POST':
@@ -66,12 +68,13 @@ def verification(request):
             verification.verified = True
             verification.save()
             return redirect('dashboard')
-        
+
         else:
             messages.error(request, 'Invalid OTP')
             return redirect('verification')
-        
+
     return render(request, 'verification.html')
+
 
 def forgottenPassword(request):
     if request.method == 'POST':
@@ -99,10 +102,11 @@ def forgottenPassword(request):
 
                 messages.success(request, 'Check your email for OTP')
                 return redirect('resetPassword')
-            
-            else: 
+
+            else:
                 user = User.objects.get(username=email)
-                verification = Verification(user=user, otp=otp, verified=False, email=email)
+                verification = Verification(
+                    user=user, otp=otp, verified=False, email=email)
                 verification.save()
 
                 subject = "Astrocapital Password Reset"
@@ -120,7 +124,8 @@ def forgottenPassword(request):
             return redirect('forgottenPassword')
     else:
         return render(request, 'forgottenPassword.html')
-    
+
+
 def resetPassword(request):
     if request.method == 'POST':
         otp = request.POST['otp']
@@ -146,6 +151,7 @@ def resetPassword(request):
 
     return render(request, 'resetPassword.html')
 
+
 def contact(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -162,20 +168,22 @@ def contact(request):
 
     return render(request, 'contact.html')
 
+
 def transactions(request):
-  invests = Transaction.objects.filter(user=request.user)
-  context = {
-      'invests': invests
-  }
-  print(invests)
-  return render(request, 'transactions.html', context)
+    invests = Transaction.objects.filter(user=request.user)
+    context = {
+        'invests': invests
+    }
+    print(invests)
+    return render(request, 'transactions.html', context)
+
 
 def dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'dashboard.html')
     else:
         return redirect('signin')
-    
+
 
 def profile(request):
     if request.user.is_authenticated:
@@ -196,91 +204,122 @@ def forgot(request):
 
 
 def signin(request):
+    # If user is already authenticated, check verification and redirect
     if request.user.is_authenticated:
         user = request.user
-        if Verification.objects.filter(user=user).exists():
-            verification = Verification.objects.get(user=request.user)
 
-            if verification.verified == False:
+        # Check if user needs to verify email
+        try:
+            verification = Verification.objects.get(user=user)
+            if not verification.verified:
                 return redirect('verification')
-        
-        return render(request, 'dashboard.html')
-    else:
-        if request.method == 'POST':
-            username = request.POST['email']
-            password = request.POST['password']
+        except Verification.DoesNotExist:
+            pass
 
-            user = auth.authenticate(username=username, password=password)
+        return redirect('dashboard')
 
-            # create otp object if user dont' have for existing users
-           
-            if user is not None:
-                auth.login(request, user)
-                # 
-                if Verification.objects.filter(user=user).exists():
-                    print('user exists')
+    # Handle GET request - show signin form
+    if request.method != 'POST':
+        return render(request, 'signin.html')
 
-                else:
-                    verification = Verification(user=user, otp=000000, verified=True, email=username)
-                    verification.save()
+    # Extract and validate credentials
+    username = request.POST.get('email', '').strip()
+    password = request.POST.get('password', '')
 
-                # messages.success(request, 'You are now logged in')
-                return redirect('dashboard')
-            else:
-                messages.error(request, 'Invalid Credentials')
-                return redirect('signin')
-        else:
-            return render(request, 'signin.html')
+    if not username or not password:
+        messages.error(request, 'Please provide both email and password')
+        return redirect('signin')
+
+    # Authenticate user
+    user = auth.authenticate(username=username, password=password)
+
+    if user is None:
+        messages.error(request, 'Invalid credentials')
+        return redirect('signin')
+
+    # Login the user
+    auth.login(request, user)
+
+    # Create verification record for existing users without one
+    if not Verification.objects.filter(user=user).exists():
+        Verification.objects.create(
+            user=user,
+            otp=0,
+            verified=True,
+            email=username
+        )
+
+    return redirect('dashboard')
 
 
 def signup(request):
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-
-        if password == password2:
-            # Check email
-            if User.objects.filter(username=username).exists():
-                messages.error(
-                    request, 'It seems you are already registered signin')
-                return redirect('signup')
-            else:
-                user = User.objects.create_user(
-                    username=username, password=password, first_name=first_name, last_name=last_name)
-                user.save()
-
-                user = auth.authenticate(username=username, password=password)
-                auth.login(request, user)
-
-                # generate 6 digit otp
-                otp = randint(100000, 999999)
-                print(otp)
-
-                # create otp object with user id, otp and verified status
-                verification = Verification(user=user, otp=otp, verified=False, email=username)
-                verification.save()
-
-                subject = "Welcome to AstroCapital Investment"
-                body = f'Hello {username}. \n \n Thank you for signing up to our platform \n \n Your OTP is {otp}'
-                from_email = settings.EMAIL_HOST_USER
-                to = [username]
-
-                # html_message = render_to_string('email.html', {'first_name': first_name, 'last_name': last_name})
-                message = EmailMessage(subject, body, from_email, to)
-                # message.content_subtype = 'html'
-                message.send()
-
-                # messages.success(
-                #     request, 'Verify your email to continue')
-                return redirect('verification')
-        else:
-            messages.error(request, "Passwords do not Match")
-            return redirect('signup')
-    else:
+    if request.method != 'POST':
         return render(request, 'signup.html')
+
+    # Extract form data
+    first_name = request.POST.get('first_name', '').strip()
+    last_name = request.POST.get('last_name', '').strip()
+    username = request.POST.get('email', '').strip()
+    password = request.POST.get('password', '')
+    password2 = request.POST.get('password2', '')
+
+    # Validate passwords match
+    if password != password2:
+        messages.error(request, "Passwords do not match")
+        return redirect('signup')
+
+    # Check if user already exists
+    if User.objects.filter(username=username).exists():
+        messages.error(
+            request, 'It seems you are already registered, please sign in')
+        return redirect('signup')
+
+    try:
+        # Create user account
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+
+        # Authenticate and login the user
+        user = auth.authenticate(username=username, password=password)
+        auth.login(request, user)
+
+        # Generate OTP and create verification record
+        otp = randint(100000, 999999)
+        verification = Verification.objects.create(
+            user=user,
+            otp=otp,
+            verified=False,
+            email=username
+        )
+
+        # Attempt to send welcome email with OTP
+        try:
+            subject = "Welcome to AstroCapital Investment"
+            body = f'Hello {first_name} {last_name},\n\nThank you for signing up to our platform.\n\nYour OTP is: {otp}\n\nPlease verify your email to continue.'
+            from_email = settings.EMAIL_HOST_USER
+
+            message = EmailMessage(subject, body, from_email, [username])
+            message.send()
+
+            print(f'OTP sent successfully: {otp}')
+        except Exception as e:
+            # Log the error but don't break the signup process
+            print(f'Failed to send email: {str(e)}')
+            messages.warning(
+                request, 'Account created but email could not be sent. Please check your email address.')
+
+        return redirect('verification')
+
+    except Exception as e:
+        # Handle any unexpected errors during signup
+        print(f'Signup error: {str(e)}')
+        messages.error(
+            request, 'An error occurred during signup. Please try again.')
+        return redirect('signup')
 
 
 def logout(request):
@@ -299,7 +338,8 @@ def withdraw(request):
             wallet = request.POST['wallet']
             username = request.POST['username']
 
-            withdraw = Bitcoin(amount=float(amount), wallet=wallet, username=username)
+            withdraw = Bitcoin(amount=float(amount),
+                               wallet=wallet, username=username)
 
             withdraw.save()
 
@@ -311,7 +351,8 @@ def withdraw(request):
             email = request.POST['email']
             username = request.POST['username']
 
-            withdraw = Paypal(amount=float(amount), email=email, username=username)
+            withdraw = Paypal(amount=float(amount),
+                              email=email, username=username)
 
             withdraw.save()
 
