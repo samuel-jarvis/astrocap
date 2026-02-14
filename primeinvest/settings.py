@@ -1,4 +1,3 @@
-import django_heroku
 from django.contrib.messages import constants as messages
 import os
 from decouple import config
@@ -137,8 +136,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-django_heroku.settings(locals())
-
 # Email Configuration for New sign up
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.privateemail.com'
@@ -186,3 +183,9 @@ EMAIL_PORT = 465
 
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURE_SSL_REDIRECT = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://astrocapital.co",
+    "https://www.astrocapital.co",
+    "https://astrocapital-production.up.railway.app"
+]
