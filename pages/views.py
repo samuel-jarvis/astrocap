@@ -1,4 +1,3 @@
-from random import randint
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
@@ -18,8 +17,6 @@ from .models import Contact, Bitcoin, Paypal, Bank, Verification, Transaction
 
 # Create your views here.
 def index(request):
-    otp = randint(100000, 999999)
-    print(otp)
     return render(request, 'index.html')
 
 
@@ -29,26 +26,16 @@ def about(request):
 
 def resendOtp(request):
     if request.user.is_authenticated:
-        # set the user verification.otp to the new otp
         user = request.user
-
-        verification = Verification.objects.get(user=user)
-
-        # generate 6 digit otp
-        otp = randint(100000, 999999)
-
-        verification.otp = otp
+        verification, _ = Verification.objects.get_or_create(
+            user=user,
+            defaults={'email': user.username, 'otp': 0, 'verified': True}
+        )
+        verification.verified = True
+        verification.otp = 0
         verification.save()
-
-        subject = "Your Astrocapital OTP"
-        body = f'Hello {user.first_name}. \n Your OTP is {otp}'
-        from_email = settings.EMAIL_HOST_USER
-
-        message = EmailMessage(subject, body, from_email, [user.username])
-        message.send()
-
-        messages.success(request, 'Check your email for OTP')
-        return redirect('verification')
+        messages.success(request, 'Email verification bypassed')
+        return redirect('dashboard')
     else:
         return redirect('signin')
 
@@ -80,45 +67,10 @@ def forgottenPassword(request):
     if request.method == 'POST':
         email = request.POST['email']
 
-        # check if email exists
         if User.objects.filter(username=email).exists():
-            # generate 6 digit otp
-            otp = randint(100000, 999999)
-            print(otp)
-
-            # create otp object with user id, otp and verified status
-            if Verification.objects.filter(email=email).exists():
-                verification = Verification.objects.get(email=email)
-                verification.otp = otp
-                verification.save()
-
-                subject = "Astrocapital Password Reset"
-                body = f'Hello {email}. \n \n Your OTP is {otp}'
-                from_email = settings.EMAIL_HOST_USER
-                to = [email]
-
-                message = EmailMessage(subject, body, from_email, to)
-                message.send()
-
-                messages.success(request, 'Check your email for OTP')
-                return redirect('resetPassword')
-
-            else:
-                user = User.objects.get(username=email)
-                verification = Verification(
-                    user=user, otp=otp, verified=False, email=email)
-                verification.save()
-
-                subject = "Astrocapital Password Reset"
-                body = f'Hello {email}. \n \n Your OTP is {otp}'
-                from_email = settings.EMAIL_HOST_USER
-                to = [email]
-
-                message = EmailMessage(subject, body, from_email, to)
-                message.send()
-
-                messages.success(request, 'Check your email for OTP')
-                return redirect('resetPassword')
+            request.session['reset_email'] = email
+            messages.success(request, 'Email service unavailable. Proceed to reset your password.')
+            return redirect('resetPassword')
         else:
             messages.error(request, 'Email does not exist')
             return redirect('forgottenPassword')
@@ -128,23 +80,24 @@ def forgottenPassword(request):
 
 def resetPassword(request):
     if request.method == 'POST':
-        otp = request.POST['otp']
         password = request.POST['password']
         password2 = request.POST['password2']
 
         if password == password2:
-            verification = Verification.objects.get(otp=otp)
-
-            if otp == str(verification.otp):
-                user = User.objects.get(username=verification.email)
+            email = request.session.get('reset_email')
+            if not email:
+                messages.error(request, 'Start the reset process with your email')
+                return redirect('forgottenPassword')
+            try:
+                user = User.objects.get(username=email)
                 user.set_password(password)
                 user.save()
-
+                request.session.pop('reset_email', None)
                 messages.success(request, 'Password Reset Successful')
                 return redirect('signin')
-            else:
-                messages.error(request, 'Invalid OTP')
-                return redirect('resetPassword')
+            except User.DoesNotExist:
+                messages.error(request, 'Account not found for reset')
+                return redirect('forgottenPassword')
         else:
             messages.error(request, 'Passwords do not match')
             return redirect('resetPassword')
@@ -204,25 +157,12 @@ def forgot(request):
 
 
 def signin(request):
-    # If user is already authenticated, check verification and redirect
     if request.user.is_authenticated:
-        user = request.user
-
-        # Check if user needs to verify email
-        try:
-            verification = Verification.objects.get(user=user)
-            if not verification.verified:
-                return redirect('verification')
-        except Verification.DoesNotExist:
-            pass
-
         return redirect('dashboard')
 
-    # Handle GET request - show signin form
     if request.method != 'POST':
         return render(request, 'signin.html')
 
-    # Extract and validate credentials
     username = request.POST.get('email', '').strip()
     password = request.POST.get('password', '')
 
@@ -230,17 +170,14 @@ def signin(request):
         messages.error(request, 'Please provide both email and password')
         return redirect('signin')
 
-    # Authenticate user
     user = auth.authenticate(username=username, password=password)
 
     if user is None:
         messages.error(request, 'Invalid credentials')
         return redirect('signin')
 
-    # Login the user
     auth.login(request, user)
 
-    # Create verification record for existing users without one
     if not Verification.objects.filter(user=user).exists():
         Verification.objects.create(
             user=user,
@@ -256,26 +193,22 @@ def signup(request):
     if request.method != 'POST':
         return render(request, 'signup.html')
 
-    # Extract form data
     first_name = request.POST.get('first_name', '').strip()
     last_name = request.POST.get('last_name', '').strip()
     username = request.POST.get('email', '').strip()
     password = request.POST.get('password', '')
     password2 = request.POST.get('password2', '')
 
-    # Validate passwords match
     if password != password2:
         messages.error(request, "Passwords do not match")
         return redirect('signup')
 
-    # Check if user already exists
     if User.objects.filter(username=username).exists():
         messages.error(
             request, 'It seems you are already registered, please sign in')
         return redirect('signup')
 
     try:
-        # Create user account
         user = User.objects.create_user(
             username=username,
             password=password,
@@ -283,39 +216,19 @@ def signup(request):
             last_name=last_name
         )
 
-        # Authenticate and login the user
         user = auth.authenticate(username=username, password=password)
         auth.login(request, user)
 
-        # Generate OTP and create verification record
-        otp = randint(100000, 999999)
         verification = Verification.objects.create(
             user=user,
-            otp=otp,
-            verified=False,
+            otp=0,
+            verified=True,
             email=username
         )
 
-        # Attempt to send welcome email with OTP
-        try:
-            subject = "Welcome to AstroCapital Investment"
-            body = f'Hello {first_name} {last_name},\n\nThank you for signing up to our platform.\n\nYour OTP is: {otp}\n\nPlease verify your email to continue.'
-            from_email = settings.EMAIL_HOST_USER
-
-            message = EmailMessage(subject, body, from_email, [username])
-            message.send()
-
-            print(f'OTP sent successfully: {otp}')
-        except Exception as e:
-            # Log the error but don't break the signup process
-            print(f'Failed to send email: {str(e)}')
-            messages.warning(
-                request, 'Account created but email could not be sent. Please check your email address.')
-
-        return redirect('verification')
+        return redirect('dashboard')
 
     except Exception as e:
-        # Handle any unexpected errors during signup
         print(f'Signup error: {str(e)}')
         messages.error(
             request, 'An error occurred during signup. Please try again.')
