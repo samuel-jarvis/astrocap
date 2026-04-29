@@ -69,7 +69,8 @@ def forgottenPassword(request):
 
         if User.objects.filter(username=email).exists():
             request.session['reset_email'] = email
-            messages.success(request, 'Email service unavailable. Proceed to reset your password.')
+            messages.success(
+                request, 'Email service unavailable. Proceed to reset your password.')
             return redirect('resetPassword')
         else:
             messages.error(request, 'Email does not exist')
@@ -86,7 +87,8 @@ def resetPassword(request):
         if password == password2:
             email = request.session.get('reset_email')
             if not email:
-                messages.error(request, 'Start the reset process with your email')
+                messages.error(
+                    request, 'Start the reset process with your email')
                 return redirect('forgottenPassword')
             try:
                 user = User.objects.get(username=email)
@@ -216,9 +218,6 @@ def signup(request):
             last_name=last_name
         )
 
-        user = auth.authenticate(username=username, password=password)
-        auth.login(request, user)
-
         verification = Verification.objects.create(
             user=user,
             otp=0,
@@ -226,7 +225,9 @@ def signup(request):
             email=username
         )
 
-        return redirect('dashboard')
+        messages.success(
+            request, 'Account created successfully. Please sign in.')
+        return redirect('signin')
 
     except Exception as e:
         print(f'Signup error: {str(e)}')
