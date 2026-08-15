@@ -11,29 +11,62 @@
   <title>Contact Us | AstroCapital</title>
 </head>
 
-<!-- Billboarrd -->
-  <main class="billboard billboard3" style="background-image: linear-gradient(102deg, rgba(5, 11, 59, 0.411) 0%, rgba(0, 11, 25, 0.849) 100%), url(https://images.unsplash.com/photo-1616156027751-fc9a850fdc9b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80); height: 40vh;">
+  <main class="billboard contact-hero" style="background-image: linear-gradient(102deg, rgba(10, 14, 32, 0.78) 0%, rgba(10, 14, 32, 0.94) 100%), url(https://images.unsplash.com/photo-1616156027751-fc9a850fdc9b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=85);">
     <div class="billboard-content">
-      <h1 class="billboard-header">CONTACT US</h1>
-      <!-- <p class="billboard-text">We trade Cryptocurrencies, Forex, Stocks and commodities with the best financial experts.</p> -->   
+      <span class="contact-hero__eyebrow">Contact AstroCapital</span>
+      <h1 class="billboard-header">We're here to help.</h1>
+      <p class="billboard-text">Have a question about your account or our services? Send us a message and our team will help you find the right answer.</p>
     </div>
   </main>
 
-  <!-- Contact Us -->
-  <div class="form" style="margin: 10px auto">
-  <form class="contact-form" action="{% url 'contact' %}" method="POST">
+  <section class="contact-section">
+    <div class="contact-shell">
+      <aside class="contact-aside">
+        <span class="contact-aside__badge">Talk to our team</span>
+        <h2>Let’s start a conversation.</h2>
+        <p>Choose the most convenient way to reach us, or use the form and include the details of your request.</p>
+
+        <div class="contact-methods">
+          <a class="contact-method" href="mailto:support@astrocapital.co">
+            <span class="contact-method__icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+            <span><small>Email us</small><strong>support@astrocapital.co</strong></span>
+          </a>
+          <a class="contact-method" href="tel:+12025287866">
+            <span class="contact-method__icon"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
+            <span><small>Call us</small><strong>+1 (202) 528-7866</strong></span>
+          </a>
+        </div>
+
+        <div class="contact-safety">
+          <i class="fas fa-shield-alt" aria-hidden="true"></i>
+          <p><strong>Protect your account.</strong> Our team will never ask for your password or private wallet keys.</p>
+        </div>
+      </aside>
+
+      <div class="form contact-card">
+      <form class="contact-form" action="{% url 'contact' %}" method="POST">
 
     {% csrf_token %}
-    <h2 class="form-header">Contact Us</h2>
+    <span class="contact-form__eyebrow">Send a message</span>
+    <h2 class="form-header">How can we help?</h2>
+    <p class="contact-form__intro">Complete the form below and provide a short description of what you need.</p>
+    {% include '_alert.html' %}
 
-    <label for="Name">Full Name:</label><br>
-    <input type="text" name="name" required><br>
+    <div class="contact-form-grid">
+      <div class="contact-field">
+        <label for="contact-name">Full name</label>
+        <input id="contact-name" type="text" name="name" autocomplete="name" maxlength="100" placeholder="Your full name" required>
+      </div>
 
-    <label for="Email">Email:</label><br>
-    <input type="email" name="email" required><br>
+      <div class="contact-field">
+        <label for="contact-email">Email address</label>
+        <input id="contact-email" type="email" name="email" autocomplete="email" maxlength="100" placeholder="you@example.com" required>
+      </div>
 
-    <label for="country">Country:</label><br>
-    <select class="input" id="country" name="country" required>
+      <div class="contact-field">
+        <label for="country">Country</label>
+        <select class="input" id="country" name="country" required>
+        <option value="" disabled selected>Select your country</option>
         <option value="Afganistan">Afghanistan</option>
         <option value="Albania">Albania</option>
         <option value="Algeria">Algeria</option>
@@ -280,51 +313,26 @@
         <option value="Zaire">Zaire</option>
         <option value="Zambia">Zambia</option>
         <option value="Zimbabwe">Zimbabwe</option>
-    </select>
-
-    <label for="phone">Phone Number:</label><br>
-    <input type="number" name="phone" placeholder="With country code" required><br>
-
-    <label for="message">Message:</label><br>
-    <textarea type="text" name="message" class="text-area" required></textarea> <br><br>
-
-    <input class="btn contact-btn" type="submit" value="Submit">
-
-  </form>
-
-  
-  </div>
-  <!-- <section class="started">
-    <p class="main-heading center">Get Started</p>
-
-    <div class="starting-steps">
-      <div class="step-card">
-        <div class="step-svg">
-          <img src="https://cdn-icons-png.flaticon.com/512/1047/1047690.png" alt="">
-        </div>
-        <h4 class="step-heading">Create Your Account</h4>
-        <p class="start-text">Click on Register and fill the form to create your account.</p>
+        </select>
       </div>
 
-      <div class="step-card">
-        <div class="step-svg">
-          <img src="https://cdn-icons-png.flaticon.com/512/4380/4380131.png" alt="">
-        </div>
-        <h4 class="step-heading">Fund Your Investment</h4>
-        <p class="start-text">Select an Investment plan and make a Deposit to your AstroCapital Wallet address.</p>
-      </div>
-
-      <div class="step-card">
-        <div class="step-svg">
-          <img src="https://cdn-icons-png.flaticon.com/512/980/980440.png" alt="">
-        </div>
-        <h4 class="step-heading">Start Earning</h4>
-        <p class="start-text">After Selecting an investment plan watch your capital grow daily.</p>
+      <div class="contact-field">
+        <label for="contact-phone">Phone number</label>
+        <input id="contact-phone" type="tel" name="phone" autocomplete="tel" maxlength="100" placeholder="Include country code" required>
       </div>
     </div>
-    
-  </section> -->
-  <!-- Why Invest with us -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <div class="contact-field contact-field--full">
+      <label for="contact-message">Message</label>
+      <textarea id="contact-message" name="message" class="text-area" rows="5" maxlength="100" placeholder="Tell us how we can help" required></textarea>
+      <small class="contact-field__hint">Maximum 100 characters.</small>
+    </div>
+
+    <input class="btn contact-btn" type="submit" value="Send message">
+
+      </form>
+      </div>
+    </div>
+  </section>
 
   {% endblock %}

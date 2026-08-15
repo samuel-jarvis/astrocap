@@ -15,8 +15,8 @@
   </main>
 
   <!-- Contact Us -->
-  <div class="form signup" style="margin: 40px auto; action = "{% url 'signup' %}">
-    <form id="sign-up" action="" method="POST" >
+  <div class="form signup" style="margin: 40px auto;">
+    <form id="sign-up" action="{% url 'signup' %}" method="POST">
       {% csrf_token%}
       <h2 class="form-header">Create an Account</h2>
       {% include '_alert.html' %}

@@ -38,9 +38,8 @@
         <div class="nav-image">
           <a href="{% url 'index' %}">
             <img
-              src="http://res.cloudinary.com/dwirhx8kk/image/upload/v1737153594/cli/v8im55dh7xldyd14igw7.png"
-              alt="Group-2"
-              border="0" />
+              src="https://res.cloudinary.com/dwirhx8kk/image/upload/v1737153594/cli/v8im55dh7xldyd14igw7.png"
+              alt="AstroCapital" />
           </a>
         </div>
 
@@ -53,9 +52,9 @@
               <a href="javascript:void(0)" onclick="closeHomeNav()"><i
                   class="fas fa-times"></i></a>
             </li>
-            <li class="nav-link"><a href="{% url 'index' %}">Home</a></li>
-            <li class="nav-link"><a href="{% url 'about' %}">About Us</a></li>
-            <li class="nav-link">
+            <li class="nav-link {% if request.resolver_match.url_name == 'index' %}is-active{% endif %}"><a href="{% url 'index' %}">Home</a></li>
+            <li class="nav-link {% if request.resolver_match.url_name == 'about' %}is-active{% endif %}"><a href="{% url 'about' %}">About Us</a></li>
+            <li class="nav-link {% if request.resolver_match.url_name == 'contact' %}is-active{% endif %}">
               <a href="{% url 'contact' %}">Contact Us</a>
             </li>
             <li class="nav-link">
@@ -91,7 +90,11 @@
 
     <!-- footer -->
     <footer class="footer">
-      <div style="margin-bottom: 20px">
+      <div class="footer-brand">
+        <a class="footer-brand__name" href="{% url 'index' %}"><span>A</span>AstroCapital</a>
+        <p>Clear investment tools and dedicated support for every client.</p>
+      </div>
+      <div>
         <h2 class="footer-heading">Quick Links</h2>
         <ul class="footer-link-group">
           <li><a href="{% url 'index' %}">Home</a></li>
@@ -127,15 +130,15 @@
 
     <div class="copyright">
       <div class="copyright-text">
-        Copyright 2025 AstroCapital Investments. All Rights Reserved
+        Copyright 2026 AstroCapital Investments. All Rights Reserved
       </div>
     </div>
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="{% static 'js/app.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script
       src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
       AOS.init();
     </script>

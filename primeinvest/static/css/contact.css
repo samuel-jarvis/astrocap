@@ -1,70 +1,90 @@
 .form {
-  width: 50rem;
-  padding: 4rem;
-  background-color: #f2f2f9;
-  margin: 0 auto;
-
+  width: min(92%, 58rem);
+  padding: clamp(3rem, 5vw, 5rem);
+  border: 1px solid #e5e9f0;
+  border-radius: 1.8rem;
+  background-color: white;
+  box-shadow: 0 20px 55px rgba(10, 14, 32, .09);
+  margin: 4rem auto !important;
 }
 
 @media only screen and (max-width: 700px) {
   .form {
-    width: 40rem;
-    padding: 4rem;
-    background-color: #f2f2f9;
+    width: calc(100% - 3rem);
+    padding: 3rem 2.4rem;
   }  
 }
 
 .form-header {
   font-size: 3rem;
-  margin-bottom: 3rem; 
-  color: var(--primary-yellow);
+  margin-bottom: 3rem;
+  color: var(--blue);
+  letter-spacing: -.05rem;
 }
 
 label {
   font-size: 1.4rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: #35405a;
 }
 
 
-input[type=text], select, textarea, input[type=email], input[type=number]
-,input[type=password] {
+input[type=text], select, textarea, input[type=email], input[type=number],
+input[type=password], input[type=tel] {
   width: 100%; /* Full width */
   padding: 12px; /* Some padding */ 
-  border: 1px solid black; /* Gray border */
-  border-radius: 4px; /* Rounded borders */
+  border: 1px solid #d8dee9;
+  border-radius: 9px;
   box-sizing: border-box; /* Make sure that padding and width stays in place */
   margin-top: 6px; /* Add a top margin */
   margin-bottom: 16px; /* Bottom margin */
-  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+  background: #fbfcfe;
+  color: #182138;
+  font-size: 1.5rem;
+  outline: none;
+  resize: vertical;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+input[type=text]:focus, select:focus, textarea:focus, input[type=email]:focus,
+input[type=number]:focus, input[type=password]:focus, input[type=tel]:focus {
+  border-color: #fb5521;
+  box-shadow: 0 0 0 3px rgba(251, 85, 33, .11);
 }
 
 /* Style the submit button with a specific background color etc */
 input[type=submit] {
   color: white;
-  padding: 1rem 2rem;
+  width: 100%;
+  padding: 1.2rem 2rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 9px;
   cursor: pointer;
   font-size: 1.6rem;
   font-weight: 400;
-  background-color: var(--blue);
+  background-color: #fb5521;
+  box-shadow: 0 10px 22px rgba(251, 85, 33, .2);
+  transition: background .2s ease, transform .2s ease;
 }
 
 /* When moving the mouse over the submit button, add a darker green color */
 input[type=submit]:hover {
-  transform: scale(1.1);
+  background: #df4211;
+  transform: translateY(-1px);
 }
 
 /* Add a background color and some padding around the form */
 .container {
-  border-radius: 5px;
-  background-color: #f2f2f9;
+  border-radius: 12px;
+  background-color: #f7f8fb;
   padding: 20px;
 }
 
 .billboard {
-  height: 8rem;
+  height: 9rem;
+  min-height: 9rem;
   padding: 0;
+  background-color: #0a0e20 !important;
 }
 
 .billboard2 {
@@ -83,5 +103,299 @@ input[type=submit]:hover {
     padding: 10rem 5rem;
     background-position: 70%;
     padding-top: 20rem;
+  }
+}
+
+/* Contact page */
+.contact-hero {
+  display: flex;
+  height: 46rem;
+  min-height: 46rem;
+  align-items: center;
+  padding: 13rem clamp(3rem, 8vw, 12rem) 6rem;
+  background-position: center;
+  background-size: cover;
+}
+
+.contact-hero .billboard-content {
+  max-width: 75rem;
+  padding: 0;
+}
+
+.contact-hero__eyebrow,
+.contact-form__eyebrow {
+  display: inline-block;
+  margin-bottom: 1.3rem;
+  color: #fb5521;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: .15rem;
+  text-transform: uppercase;
+}
+
+.contact-hero .billboard-header {
+  max-width: 68rem;
+  margin-bottom: 1.5rem;
+  font-size: clamp(4.2rem, 6vw, 6.4rem);
+}
+
+.contact-hero .billboard-text {
+  max-width: 66rem;
+  padding: 0;
+  color: #d6dce8;
+  font-size: clamp(1.7rem, 2vw, 2.1rem);
+  line-height: 1.6;
+}
+
+.contact-section {
+  position: relative;
+  overflow: hidden;
+  padding: 7rem clamp(2rem, 6vw, 8rem);
+  background:
+    radial-gradient(circle at 0 100%, rgba(251, 85, 33, .07), transparent 28%),
+    #f6f8fb;
+}
+
+.contact-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  max-width: 120rem;
+  align-items: stretch;
+  margin: 0 auto;
+  grid-template-columns: minmax(30rem, .78fr) minmax(0, 1.22fr);
+  gap: 2rem;
+}
+
+.contact-aside {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3.5rem, 5vw, 5.5rem);
+  border-radius: 2.2rem;
+  background:
+    radial-gradient(circle at 100% 0, rgba(251, 85, 33, .2), transparent 28%),
+    #0a0e20;
+  box-shadow: 0 22px 60px rgba(10, 14, 32, .16);
+  color: white;
+}
+
+.contact-aside::after {
+  position: absolute;
+  right: -9rem;
+  bottom: -9rem;
+  width: 23rem;
+  height: 23rem;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 50%;
+  content: "";
+}
+
+.contact-aside__badge {
+  display: inline-flex;
+  margin-bottom: 2.4rem;
+  padding: .7rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(251, 85, 33, .13);
+  color: #ff9674;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .08rem;
+  text-transform: uppercase;
+}
+
+.contact-aside h2 {
+  max-width: 36rem;
+  margin-bottom: 1.4rem;
+  font-size: clamp(3rem, 4vw, 4.2rem);
+  line-height: 1.12;
+  letter-spacing: -.08rem;
+}
+
+.contact-aside > p {
+  max-width: 40rem;
+  color: #aeb7ca;
+  font-size: 1.5rem;
+  line-height: 1.75;
+}
+
+.contact-methods {
+  display: grid;
+  margin-top: 4rem;
+  gap: 1.2rem;
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, .04);
+  color: white;
+  gap: 1.3rem;
+  text-decoration: none;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.contact-method:hover {
+  border-color: rgba(251, 85, 33, .42);
+  background: rgba(251, 85, 33, .08);
+  transform: translateY(-1px);
+}
+
+.contact-method__icon {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  flex: none;
+  place-items: center;
+  border-radius: 1rem;
+  background: rgba(251, 85, 33, .14);
+  color: #fb5521;
+  font-size: 1.5rem;
+}
+
+.contact-method > span:last-child {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.contact-method small {
+  margin-bottom: .2rem;
+  color: #8995ac;
+  font-size: 1.1rem;
+}
+
+.contact-method strong {
+  overflow-wrap: anywhere;
+  font-size: 1.35rem;
+}
+
+.contact-safety {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 4rem;
+  padding-top: 2.2rem;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  color: #aeb7ca;
+  gap: 1rem;
+}
+
+.contact-safety i {
+  margin-top: .3rem;
+  color: #fb5521;
+}
+
+.contact-safety p {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+
+.contact-safety strong {
+  color: white;
+}
+
+.contact-card.form {
+  width: 100%;
+  margin: 0 !important;
+  padding: clamp(3.5rem, 5vw, 5.5rem);
+  border-radius: 2.2rem;
+  box-shadow: 0 22px 60px rgba(10, 14, 32, .08);
+}
+
+.contact-card .form-header {
+  margin-bottom: .8rem;
+  font-size: clamp(2.8rem, 3vw, 3.6rem);
+}
+
+.contact-form__intro {
+  margin-bottom: 2.8rem;
+  color: #6c778e;
+  font-size: 1.4rem;
+  line-height: 1.7;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .4rem 1.6rem;
+}
+
+.contact-field label {
+  display: block;
+}
+
+.contact-field input,
+.contact-field select,
+.contact-field textarea {
+  min-height: 4.8rem;
+  margin-bottom: 1.6rem;
+}
+
+.contact-field textarea {
+  min-height: 13rem;
+}
+
+.contact-field--full {
+  margin-top: .4rem;
+}
+
+.contact-field__hint {
+  display: block;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+  color: #8a94a8;
+  font-size: 1.1rem;
+}
+
+.contact-card input[type=submit] {
+  width: auto;
+  min-width: 17rem;
+  padding: 1.3rem 2.2rem;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 900px) {
+  .contact-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-aside {
+    min-height: auto;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .contact-hero {
+    height: 42rem;
+    min-height: 42rem;
+    padding: 13rem 2.5rem 5rem;
+  }
+
+  .contact-hero .billboard-header {
+    font-size: 4.2rem;
+  }
+
+  .contact-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card.form,
+  .contact-aside {
+    padding: 3rem 2.3rem;
+    border-radius: 1.6rem;
+  }
+
+  .contact-card input[type=submit] {
+    width: 100%;
   }
 }

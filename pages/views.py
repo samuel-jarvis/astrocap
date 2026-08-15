@@ -146,7 +146,8 @@ def contact(request):
                           country=country, message=message, phone=phone)
 
         contact.save()
-        # return redirect('contacts')
+        messages.success(request, 'Thanks for contacting us. Your message has been received.')
+        return redirect('contact')
 
     return render(request, 'contact.html')
 

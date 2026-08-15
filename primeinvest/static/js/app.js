@@ -1,17 +1,21 @@
 function openNav() {
-  document.querySelector(".nav").classList.add('opennav');
+  const nav = document.querySelector(".nav");
+  if (nav) nav.classList.add('opennav');
 }
 
 function closeNav() {
-  document.querySelector(".nav").classList.remove('opennav');
+  const nav = document.querySelector(".nav");
+  if (nav) nav.classList.remove('opennav');
 }
 
 function openHomeNav() {
-  document.querySelector(".nav-links2").style.width = "25rem";
+  const nav = document.querySelector(".nav-links2");
+  if (nav) nav.style.width = "25rem";
 }
 
 function closeHomeNav() {
-  document.querySelector(".nav-links2").style.width = "0";
+  const nav = document.querySelector(".nav-links2");
+  if (nav) nav.style.width = "0";
 }
 
 
@@ -31,7 +35,8 @@ function myFunction() {
   alert("Copied the text: " + copyText.value);
 }
 
-var swiper = new Swiper(".mySwiper", {
+if (window.Swiper && document.querySelector('.mySwiper')) {
+  new Swiper(".mySwiper", {
   navigation: {
     nextEl: ".swiper-button-next",
     prevEl: ".swiper-button-prev",
@@ -51,7 +56,8 @@ var swiper = new Swiper(".mySwiper", {
       spaceBetween: 30,
     },
   },
-});
+  });
+}
 
 // let header = document.querySelector(".nav");
 // console.log(header);
@@ -60,10 +66,13 @@ var swiper = new Swiper(".mySwiper", {
 document.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
+  const navbar = document.getElementById("navbar");
+  if (!navbar) return;
+
   if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
-    document.getElementById("navbar").style.backgroundColor = "#181820";
+    navbar.style.backgroundColor = "rgba(10, 14, 32, 0.96)";
   } else {
-    document.getElementById("navbar").style.backgroundColor = "transparent";
+    navbar.style.backgroundColor = "transparent";
   }
 }
 
@@ -77,7 +86,7 @@ const togglePassword = document.querySelector('#togglePassword');
 const togglePassword2 = document.querySelector('#togglePassword2');
 
 
-togglePassword.addEventListener('click', function (e) {
+if (togglePassword && password) togglePassword.addEventListener('click', function (e) {
   const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
     password.setAttribute('type', type);
     // toggle the eye / eye slash icon
@@ -91,7 +100,7 @@ togglePassword.addEventListener('click', function (e) {
     }
 });
 
-togglePassword2.addEventListener('click', function (e) {
+if (togglePassword2 && password2) togglePassword2.addEventListener('click', function (e) {
   const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
     password2.setAttribute('type', type);
     // toggle the eye / eye slash icon

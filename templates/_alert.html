@@ -1,31 +1,14 @@
 {% if messages %}
-
-<head>
-  <style>
-    #messages {
-      font-size: 1.6rem;
-      margin: 1rem auto;
-      text-align: center;
-      color: #F7921A;
-      border: 1px solid white;
-      width: max-content;
-      text-align: center;
-      padding: 10px;
-    }
-  </style>
-</head>
-
-<div id="messages">
+<div id="messages" role="status" aria-live="polite">
     {% for message in messages %}
-    <span class="message">
+    <div class="public-message public-message--{{ message.tags|default:'info' }}">
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-            ERROR:
+            <strong>Error:</strong>
         {% else %}
-            {{ message.tags|title }}
+            <strong>{{ message.tags|title }}</strong>
         {% endif %}
-    </span>
-    {{message}}
-
+        <span>{{ message }}</span>
+    </div>
     {% endfor %}
 </div>
 {% endif %}

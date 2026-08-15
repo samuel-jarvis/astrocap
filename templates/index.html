@@ -6,6 +6,7 @@
 <head>
   <link rel="stylesheet"
     href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   <title>Home | AstroCapital</title>
 </head>
 
@@ -15,8 +16,7 @@
     style="background-image: linear-gradient( 102deg, rgba(4, 8, 36, 0.534) 0%, rgba(0, 11, 25, 0.849) 100%), url(https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1102&q=80); background-repeat: no-repeat; background-size: cover;">
     <div class="billboard-content content-2">
       <h1 class="billboard-header" data-aos="fade-down"
-        data-aos-duration="1000">Multiply your assest with invesment you
-        can trust.</h1>
+        data-aos-duration="1000">Grow your assets with investments you can trust.</h1>
       <p class="billboard-text" data-aos="fade-up"
         data-aos-duration="1000">AstroCapital offers opportunities to grow
         your assets, with our reliable and trusted trading platform.</p>
@@ -26,10 +26,13 @@
     </div>
   </main>
 
+  <div class="home-page">
+
   <section class="why-invest">
 
     <div class="why-section">
       <div class="why-main-text">
+        <span class="home-kicker">Why AstroCapital</span>
         <h2 class="main-heading">About AstroCapital</h2>
         <p>AstroCapital Investment is an online cryptocurrency investment
           company based and registered in the UK since
@@ -38,6 +41,7 @@
           Stock with investments in Bonds, Futures and Real Estate. We are
           dedicated to making good use of our clients
           investments and ensuring consistent return of profit.</p>
+        <a class="home-text-link" href="{% url 'about' %}">Learn more about us <span>&rarr;</span></a>
       </div>
 
       <!-- card group -->
@@ -56,9 +60,8 @@
               </svg>
             </div>
             <div class="usp-text">
-              <p class="usp-headingtext">100% Secured</p>
-              <p class="usp-othertext">Our Platform is 100% secured and can't be
-                attacked by hackers</p>
+              <p class="usp-headingtext">Account Security</p>
+              <p class="usp-othertext">Protected dashboard access and clear guidance help clients manage their accounts carefully.</p>
             </div>
           </div>
 
@@ -84,7 +87,7 @@
               </svg>
             </div>
             <div class="usp-text">
-              <p class="usp-headingtext">Guranteed Profit</p>
+              <p class="usp-headingtext">Expert Management</p>
               <p class="usp-othertext">Trades are carried out by professional
                 and experienced traders</p>
             </div>
@@ -110,11 +113,20 @@
     </div>
   </section>
 
-  </div class="widget">
+  <section class="home-market-section">
+    <div class="home-section-heading home-section-heading--split">
+      <div>
+        <span class="home-kicker">Market overview</span>
+        <h2 class="main-heading">Follow digital asset markets.</h2>
+      </div>
+      <p>Review current cryptocurrency market information before making account decisions.</p>
+    </div>
+  <div class="widget home-market-widget">
   <iframe class="iframe" frameborder=0 height=500 width=100% scrolling=no
     src='https://s.tradingview.com/embed-widget/crypto-mkt-screener/?locale=in#%7B%22width%22%3A1115%2C%22height%22%3A490%2C%22defaultColumn%22%3A%22overview%22%2C%22screener_type%22%3A%22crypto_mkt%22%2C%22displayCurrency%22%3A%22USD%22%2C%22colorTheme%22%3A%22light%22%2C%22market%22%3A%22crypto%22%2C%22enableScrolling%22%3Atrue%2C%22utm_source%22%3A%22kryptotrade.com%22%2C%22utm_medium%22%3A%22widget_new%22%2C%22utm_campaign%22%3A%22cryptomktscreener%22%7D"'></iframe>
 
 </div>
+  </section>
 
 <!-- Statistics Section -->
 <section class="statistics"
@@ -190,8 +202,11 @@
 
 <!-- Investment Packages -->
 <section class="investments">
-  <h2 class="main-heading" style="color: #121d33;">Investment Plans</h2>
-  <p class="sub-heading">Investment plans for our members.</p>
+  <div class="home-section-heading">
+    <span class="home-kicker">Choose your approach</span>
+    <h2 class="main-heading">Investment Plans</h2>
+    <p class="sub-heading">Investment plans designed for different account levels.</p>
+  </div>
 
   <div class="invest-group">
     <div class="investment-plan">
@@ -217,7 +232,7 @@
           <p class="invest-return">Time - 4 Weeks</p>
           <!-- <p>For 4 times</p> -->
           <p>minimum - $5,000</p>
-          <p>minimum - $10,000</p>
+          <p>maximum - $10,000</p>
         </div>
 
       </div>
@@ -254,7 +269,11 @@
 </section>
 
 <section class="started">
-  <p class="main-heading center">Get Started</p>
+  <div class="home-section-heading">
+    <span class="home-kicker">Simple onboarding</span>
+    <h2 class="main-heading">Get Started</h2>
+    <p>Move from registration to account management in three clear steps.</p>
+  </div>
 
   <div class="starting-steps">
     <div class="step-card">
@@ -287,7 +306,15 @@
 
 </section>
 
-<div class="widget">
+<section class="home-chart-section">
+  <div class="home-section-heading home-section-heading--split">
+    <div>
+      <span class="home-kicker">Live pricing</span>
+      <h2 class="main-heading">Explore the Bitcoin market.</h2>
+    </div>
+    <p>Use the live chart to review recent price movement and broader market context.</p>
+  </div>
+<div class="widget home-chart-widget">
   <coingecko-coin-price-marquee-widget
     coin-ids="bitcoin,ethereum,eos,ripple,litecoin" currency="usd"
     background-color="#ffffff"
@@ -309,9 +336,13 @@
     </div>
   </div>
 </div>
+</section>
 
 <div class="image-gallery">
-  <h2 class="main-heading center mb">Our Gallery</h2>
+  <div class="home-section-heading">
+    <span class="home-kicker">Inside AstroCapital</span>
+    <h2 class="main-heading">Our Gallery</h2>
+  </div>
 
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
@@ -339,7 +370,10 @@
 
 <!-- Testimonials -->
 <section class="testimonials">
-  <h2 class="main-heading center mb">Testimonies from Investors</h2>
+  <div class="home-section-heading">
+    <span class="home-kicker">Client perspectives</span>
+    <h2 class="main-heading">What investors say</h2>
+  </div>
 
   <div class="testimony-group">
     <div class="testimony">
@@ -388,6 +422,20 @@
     </div>
   </div>
 </section>
+
+<section class="home-cta">
+  <div>
+    <span class="home-kicker">Start today</span>
+    <h2>Ready to access your investment dashboard?</h2>
+    <p>Create an account to review funding options, balances, transactions, and support in one place.</p>
+  </div>
+  <div class="home-cta__actions">
+    <a class="home-button home-button--primary" href="{% url 'signup' %}">Create an account</a>
+    <a class="home-button home-button--secondary" href="{% url 'contact' %}">Contact us</a>
+  </div>
+</section>
+
+  </div>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 {% endblock %}

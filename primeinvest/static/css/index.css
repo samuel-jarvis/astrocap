@@ -3,7 +3,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-  --blue: #181820;
+  --blue: #0a0e20;
   --yellow: #fb5521;
   /* --yellow: rgb(212, 149, 57); */
   --bg-ash: #f2f2f2;
@@ -876,5 +876,304 @@ video {
   .about-group {
     padding: 6rem 2rem;
     width: 100%;
+  }
+}
+
+/* Public site refresh */
+body {
+  background: #f7f8fb;
+  color: #20283a;
+}
+
+.nav {
+  padding: 1.6rem clamp(2rem, 5vw, 7rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 14, 32, 0.94);
+  box-shadow: 0 8px 30px rgba(10, 14, 32, 0.08);
+  backdrop-filter: blur(16px);
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+.nav-image {
+  padding: 0;
+  background: transparent;
+  line-height: 0;
+}
+
+.nav-image img {
+  width: 18rem;
+  height: auto;
+}
+
+.nav-links ul {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.nav-links li {
+  padding-right: 0;
+}
+
+.nav-links a {
+  position: relative;
+  display: inline-flex;
+  padding: .9rem 1.2rem;
+  align-items: center;
+  font-weight: 500;
+}
+
+.nav-link:not(:last-child) > a::after {
+  position: absolute;
+  right: 1.2rem;
+  bottom: .3rem;
+  left: 1.2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--yellow);
+  content: "";
+  opacity: 0;
+  transform: scaleX(.4);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.nav-link:not(:last-child) > a:hover::after,
+.nav-link.is-active > a::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+a.button.btn-login {
+  min-width: 8.5rem;
+  justify-content: center;
+  border-radius: .9rem;
+  color: white;
+  box-shadow: 0 8px 18px rgba(251, 85, 33, .22);
+  transition: background .2s ease, transform .2s ease;
+}
+
+a.button.btn-login:hover,
+.btn-bill:hover,
+.btn-invest:hover {
+  background: #df4211;
+  transform: translateY(-1px);
+}
+
+.btn {
+  border-radius: .9rem;
+  font-weight: 600;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-bill {
+  padding: 1.25rem 2.4rem;
+  box-shadow: 0 12px 28px rgba(251, 85, 33, .24);
+}
+
+.billboard {
+  min-height: 38rem;
+}
+
+.bill2 {
+  height: min(82vh, 76rem);
+}
+
+.billboard-content {
+  max-width: 78rem;
+}
+
+.billboard-header {
+  font-size: clamp(3.8rem, 5vw, 6.2rem);
+  line-height: 1.08;
+  letter-spacing: -.12rem;
+  text-transform: none;
+}
+
+.billboard-text {
+  max-width: 72rem;
+  padding-right: 0;
+  color: #dce2ed;
+  font-size: clamp(1.8rem, 2vw, 2.3rem);
+  line-height: 1.6;
+}
+
+.main-heading {
+  letter-spacing: -.05rem;
+}
+
+.why-invest,
+.started,
+.testimonials {
+  background: #f4f6fa;
+}
+
+.why-section,
+.starting-steps,
+.invest-group,
+.testimony-group {
+  max-width: 124rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.usp,
+.investment-plan,
+.step-card,
+.testimony {
+  border-radius: 1.6rem;
+}
+
+.usp {
+  border: 1px solid #e5e9f0;
+  box-shadow: 0 12px 34px rgba(10, 14, 32, .06);
+}
+
+.investment-plan {
+  flex: 1;
+  width: auto;
+  border: 1px solid #e3e7ee;
+  background: white;
+  box-shadow: 0 12px 32px rgba(10, 14, 32, .07);
+}
+
+.investment-plan:nth-child(2) {
+  border-color: rgba(251, 85, 33, .45);
+  box-shadow: 0 16px 38px rgba(251, 85, 33, .10);
+}
+
+.statistics {
+  background-color: var(--blue);
+}
+
+.about-group {
+  max-width: 100rem;
+  margin: 0 auto;
+}
+
+.about-text {
+  color: #465068;
+}
+
+.footer {
+  display: grid;
+  padding: 6rem clamp(3rem, 7vw, 10rem);
+  background: var(--blue);
+  grid-template-columns: 1.35fr repeat(3, 1fr);
+  gap: 5rem;
+}
+
+.footer-brand__name {
+  display: inline-flex;
+  align-items: center;
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.footer-brand__name span {
+  display: grid;
+  width: 3.6rem;
+  height: 3.6rem;
+  place-items: center;
+  border-radius: .9rem;
+  background: var(--yellow);
+}
+
+.footer-brand p {
+  max-width: 28rem;
+  margin-top: 1.5rem;
+  color: #aeb7ca;
+  font-size: 1.4rem;
+  line-height: 1.7;
+}
+
+.footer-heading {
+  font-weight: 600;
+}
+
+.footer-link-group a {
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.footer-link-group a:hover {
+  color: var(--yellow);
+}
+
+.copyright {
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  background: #070a16;
+}
+
+.public-message {
+  display: flex;
+  margin: 1rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid #ffcab9;
+  border-radius: .9rem;
+  background: #fff2ed;
+  color: #873617;
+  font-size: 1.4rem;
+  gap: .6rem;
+}
+
+.public-message--success {
+  border-color: #bce6d5;
+  background: #eaf8f2;
+  color: #1a674e;
+}
+
+@media only screen and (max-width: 900px) {
+  .footer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .nav {
+    padding: 1rem 2rem;
+  }
+
+  .nav-links2 {
+    background: var(--blue);
+    box-shadow: -18px 0 50px rgba(10, 14, 32, .25);
+  }
+
+  .nav-links ul {
+    display: block;
+  }
+
+  .nav-links a {
+    color: white;
+  }
+
+  .nav-links .closebtn a {
+    color: var(--yellow);
+  }
+
+  .investment-plan {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .nav-image img {
+    width: 14rem;
+  }
+
+  .billboard {
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+
+  .billboard-header {
+    font-size: 4rem;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+    gap: 3rem;
   }
 }
