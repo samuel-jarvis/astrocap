@@ -1,0 +1,51 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Profile{% endblock %}
+{% block eyebrow %}Account settings{% endblock %}
+{% block page_title %}Your profile{% endblock %}
+
+{% block content %}
+  <section class="profile-hero">
+    <span class="profile-avatar">{{ user.first_name|first|default:"A"|upper }}{{ user.last_name|first|upper }}</span>
+    <div class="profile-hero__copy">
+      <h2>{{ user.get_full_name|default:"AstroCapital Investor" }}</h2>
+      <p>{{ user.username }}</p>
+      <span class="status-badge status-badge--approved"><span class="status-dot"></span> Verified account</span>
+    </div>
+    <span class="member-since">Member since <strong>{{ user.date_joined|date:"M Y" }}</strong></span>
+  </section>
+
+  <section class="profile-grid">
+    <article class="panel">
+      <div class="panel__header">
+        <div><p class="eyebrow">Identity</p><h2>Personal information</h2></div>
+      </div>
+      <dl class="detail-list">
+        <div><dt>First name</dt><dd>{{ user.first_name|default:"Not provided" }}</dd></div>
+        <div><dt>Last name</dt><dd>{{ user.last_name|default:"Not provided" }}</dd></div>
+        <div><dt>Email address</dt><dd>{{ user.username }}</dd></div>
+        <div><dt>Date joined</dt><dd>{{ user.date_joined|date:"F d, Y" }}</dd></div>
+      </dl>
+    </article>
+
+    <article class="panel">
+      <div class="panel__header">
+        <div><p class="eyebrow">Portfolio</p><h2>Account information</h2></div>
+      </div>
+      <dl class="detail-list">
+        <div><dt>Available balance</dt><dd class="detail-list__balance">${{ balance.account_balance|default:"0" }}</dd></div>
+        <div><dt>Account status</dt><dd><span class="status-badge status-badge--approved">Verified</span></dd></div>
+        <div><dt>Account type</dt><dd>Investment</dd></div>
+        <div><dt>Account ID</dt><dd>#AC-{{ user.id|stringformat:"05d" }}</dd></div>
+      </dl>
+    </article>
+  </section>
+
+  <section class="panel support-card">
+    <span class="support-card__icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13a8 8 0 0 1 16 0m-16 0v4a2 2 0 0 0 2 2h2v-7H4v1Zm16 0v4a2 2 0 0 1-2 2h-2v-7h4v1Zm-4 6c0 1.1-.9 2-2 2h-2"/></svg>
+    </span>
+    <div><h2>Need to update your details?</h2><p>For account security, contact our admin team to request changes to your personal information.</p></div>
+    <a class="button button--secondary" href="{% url 'support' %}">Contact support</a>
+  </section>
+{% endblock %}

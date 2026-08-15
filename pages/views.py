@@ -1,18 +1,21 @@
+from decimal import Decimal, InvalidOperation
+
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMessage
-# from django.core.mail import send_mail
-# from django.core.mail import EmailMultiAlternatives
-# from django.template.loader import get_template
-# from django.template import Context
-from django.template.loader import render_to_string
-from django.conf import settings
-from django.core.mail import send_mail
+from django.views.decorators.http import require_http_methods
 
 
-from .models import Contact, Bitcoin, Paypal, Bank, Verification, Transaction
+from .models import (
+    Balance,
+    Bank,
+    Bitcoin,
+    Contact,
+    Paypal,
+    Transaction,
+    Verification,
+)
 
 
 # Create your views here.
@@ -24,36 +27,60 @@ def about(request):
     return render(request, 'about.html')
 
 
+def _get_or_create_balance(user):
+    """Return a balance for both new accounts and legacy users."""
+    balance, _ = Balance.objects.get_or_create(
+        user=user,
+        defaults={'username': user.username},
+    )
+    return balance
+
+
+def _parse_withdrawal_amount(raw_amount):
+    """Validate the integer amount supported by the existing database model."""
+    try:
+        amount = Decimal(raw_amount)
+    except (InvalidOperation, TypeError):
+        return None
+
+    if (
+        not amount.is_finite()
+        or amount != amount.to_integral_value()
+        or amount < 50
+        or amount > 9223372036854775807
+    ):
+        return None
+
+    return int(amount)
+
+
+@login_required(login_url='signin')
 def resendOtp(request):
-    if request.user.is_authenticated:
-        user = request.user
-        verification, _ = Verification.objects.get_or_create(
-            user=user,
-            defaults={'email': user.username, 'otp': 0, 'verified': True}
-        )
-        verification.verified = True
-        verification.otp = 0
-        verification.save()
-        messages.success(request, 'Email verification bypassed')
-        return redirect('dashboard')
-    else:
-        return redirect('signin')
+    user = request.user
+    verification, _ = Verification.objects.get_or_create(
+        user=user,
+        defaults={'email': user.username, 'otp': 0, 'verified': True}
+    )
+    verification.verified = True
+    verification.otp = 0
+    verification.save(update_fields=['verified', 'otp'])
+    messages.success(request, 'Email verification bypassed')
+    return redirect('dashboard')
 
 
+@login_required(login_url='signin')
 def verification(request):
     # check otp
     if request.method == 'POST':
-        otp = request.POST['otp']
-        user = request.user
-        verification = Verification.objects.get(user=request.user)
-
-        print(otp)
-        print(verification.otp)
+        otp = request.POST.get('otp', '').strip()
+        verification, _ = Verification.objects.get_or_create(
+            user=request.user,
+            defaults={'email': request.user.username, 'otp': 0},
+        )
 
         if otp == str(verification.otp):
-            print('otp verified')
             verification.verified = True
-            verification.save()
+            verification.save(update_fields=['verified'])
             return redirect('dashboard')
 
         else:
@@ -124,38 +151,73 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+@login_required(login_url='signin')
 def transactions(request):
-    invests = Transaction.objects.filter(user=request.user)
+    invests = Transaction.objects.filter(user=request.user).order_by('-date')
     context = {
         'invests': invests
     }
-    print(invests)
-    return render(request, 'transactions.html', context)
+    return render(request, 'dashboard/transactions.html', context)
 
 
+@login_required(login_url='signin')
 def dashboard(request):
-    if request.user.is_authenticated:
-        return render(request, 'dashboard.html')
-    else:
-        return redirect('signin')
+    return render(
+        request,
+        'dashboard/overview.html',
+        {'balance': _get_or_create_balance(request.user)},
+    )
 
 
+@login_required(login_url='signin')
 def profile(request):
-    if request.user.is_authenticated:
-        return render(request, 'profile.html')
-    else:
-        return redirect('signin')
+    return render(
+        request,
+        'dashboard/profile.html',
+        {'balance': _get_or_create_balance(request.user)},
+    )
 
 
+@login_required(login_url='signin')
 def deposit(request):
-    if request.user.is_authenticated:
-        return render(request, 'deposit.html')
-    else:
-        return redirect('signin')
+    return render(request, 'dashboard/deposit.html')
+
+
+@login_required(login_url='signin')
+def support(request):
+    if request.method == 'POST':
+        topic = request.POST.get('topic', 'General').strip()
+        message = request.POST.get('message', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        country = request.POST.get('country', '').strip()
+
+        allowed_topics = {'Account', 'Deposit', 'Withdrawal', 'Technical', 'General'}
+        if topic not in allowed_topics:
+            topic = 'General'
+
+        if not message:
+            messages.error(request, 'Tell us how we can help.')
+            return redirect('support')
+
+        if len(message) > 85:
+            messages.error(request, 'Keep your message to 85 characters or fewer.')
+            return redirect('support')
+
+        Contact.objects.create(
+            name=(request.user.get_full_name() or request.user.username)[:100],
+            email=request.user.username[:100],
+            country=country[:100],
+            phone=phone[:100],
+            message=f'[{topic}] {message}',
+        )
+        messages.success(request, 'Your support request has been sent to the admin team.')
+        return redirect('support')
+
+    return render(request, 'dashboard/support.html')
 
 
 def forgot(request):
-    return render(request, 'forgot.html')
+    return redirect('forgottenPassword')
 
 
 def signin(request):
@@ -225,6 +287,11 @@ def signup(request):
             email=username
         )
 
+        Balance.objects.get_or_create(
+            user=user,
+            defaults={'username': username},
+        )
+
         messages.success(
             request, 'Account created successfully. Please sign in.')
         return redirect('signin')
@@ -241,52 +308,58 @@ def logout(request):
         auth.logout(request)
         return redirect('signin')
 
-
-def withdraw(request):
     if request.user.is_authenticated:
-        if request.method == 'GET':
-            return render(request, 'withdraw.html')
+        return redirect('dashboard')
+    return redirect('signin')
 
-        if request.method == 'POST' and 'bitcoin' in request.POST:
-            amount = request.POST['amount']
-            wallet = request.POST['wallet']
-            username = request.POST['username']
 
-            withdraw = Bitcoin(amount=float(amount),
-                               wallet=wallet, username=username)
+@login_required(login_url='signin')
+@require_http_methods(['GET', 'POST'])
+def withdraw(request):
+    if request.method == 'GET':
+        return render(request, 'dashboard/withdraw.html')
 
-            withdraw.save()
+    amount = _parse_withdrawal_amount(request.POST.get('amount'))
+    if amount is None:
+        messages.error(request, 'Enter a whole-dollar amount of at least $50.')
+        return redirect('withdraw')
 
-            messages.success(request, 'Withdrawal Processing')
-            return render(request, 'withdraw.html')
+    username = request.user.username
 
-        if request.method == 'POST' and 'paypal' in request.POST:
-            amount = request.POST['amount']
-            email = request.POST['email']
-            username = request.POST['username']
+    if 'bitcoin' in request.POST:
+        wallet = request.POST.get('wallet', '').strip()
+        if not wallet:
+            messages.error(request, 'Enter a wallet address.')
+            return redirect('withdraw')
+        Bitcoin.objects.create(amount=amount, wallet=wallet, username=username)
 
-            withdraw = Paypal(amount=float(amount),
-                              email=email, username=username)
+    elif 'paypal' in request.POST:
+        email = request.POST.get('email', '').strip()
+        if not email:
+            messages.error(request, 'Enter the PayPal email address.')
+            return redirect('withdraw')
+        Paypal.objects.create(amount=amount, email=email, username=username)
 
-            withdraw.save()
+    elif 'bank' in request.POST:
+        account_name = request.POST.get('accountname', '').strip()
+        bank_name = request.POST.get('bankname', '').strip()
+        account_number = request.POST.get('accountnumber', '').strip()
 
-            messages.success(request, 'Withdrawal Processing')
-            return render(request, 'withdraw.html')
+        if not all((account_name, bank_name, account_number)) or not account_number.isdigit():
+            messages.error(request, 'Enter valid bank account details.')
+            return redirect('withdraw')
 
-        if request.method == 'POST' and 'bank' in request.POST:
-            amount = float(request.POST['amount'])
-            account_name = request.POST['accountname']
-            bank_name = request.POST['bankname']
-            account_number = request.POST['accountnumber']
-            username = request.POST['username']
-
-            withdraw = Bank(amount=amount, account_name=account_name,
-                            bank_name=bank_name, account_number=account_number, username=username)
-
-            withdraw.save()
-
-            messages.success(request, 'Withdrawal Processing')
-            return render(request, 'withdraw.html')
+        Bank.objects.create(
+            amount=amount,
+            account_name=account_name,
+            bank_name=bank_name,
+            account_number=account_number,
+            username=username,
+        )
 
     else:
-        return redirect('signin')
+        messages.error(request, 'Choose a withdrawal method.')
+        return redirect('withdraw')
+
+    messages.success(request, 'Your withdrawal request is being processed.')
+    return redirect('withdraw')

@@ -1,0 +1,71 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Withdraw{% endblock %}
+{% block eyebrow %}Manage funds{% endblock %}
+{% block page_title %}Withdraw funds{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <div>
+      <h2>Choose a payout method</h2>
+      <p>Submit your destination details carefully. Withdrawal requests are reviewed before processing.</p>
+    </div>
+    <span class="security-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.9 8.3 7 10 4.1-1.7 7-5.4 7-10V6l-7-3Zm-3 9 2 2 4-4"/></svg>
+      Protected request
+    </span>
+  </section>
+
+  <section class="withdraw-grid">
+    <article class="withdraw-card">
+      <div class="withdraw-card__header">
+        <span class="payment-logo payment-logo--bitcoin">&#8383;</span>
+        <div><h2>Bitcoin wallet</h2><p>Receive funds to a BTC address</p></div>
+      </div>
+      <div class="fee-strip"><span>Minimum <strong>$50</strong></span><span>Fee <strong>0%</strong></span></div>
+      <form class="dashboard-form" method="post" action="{% url 'withdraw' %}">
+        {% csrf_token %}
+        <div class="form-field">
+          <label for="bitcoin-amount">Amount (USD)</label>
+          <div class="input-prefix"><span>$</span><input id="bitcoin-amount" type="number" name="amount" min="50" step="1" inputmode="numeric" placeholder="50" required></div>
+        </div>
+        <div class="form-field">
+          <label for="wallet-address">Bitcoin wallet address</label>
+          <input id="wallet-address" type="text" name="wallet" autocomplete="off" placeholder="Enter destination wallet" required>
+        </div>
+        <button class="button button--primary button--full" type="submit" name="bitcoin">Request Bitcoin withdrawal</button>
+      </form>
+    </article>
+
+    <article class="withdraw-card">
+      <div class="withdraw-card__header">
+        <span class="payment-logo payment-logo--bank">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 9 8-5 8 5M5 10h14M7 10v7m5-7v7m5-7v7M4 20h16"/></svg>
+        </span>
+        <div><h2>Bank account</h2><p>Receive funds to your bank</p></div>
+      </div>
+      <div class="fee-strip"><span>Minimum <strong>$50</strong></span><span>Fee <strong>$6</strong></span></div>
+      <form class="dashboard-form" method="post" action="{% url 'withdraw' %}">
+        {% csrf_token %}
+        <div class="form-field">
+          <label for="bank-amount">Amount (USD)</label>
+          <div class="input-prefix"><span>$</span><input id="bank-amount" type="number" name="amount" min="50" step="1" inputmode="numeric" placeholder="50" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label for="account-name">Account name</label><input id="account-name" type="text" name="accountname" autocomplete="name" placeholder="Full name" required></div>
+          <div class="form-field"><label for="bank-name">Bank name</label><input id="bank-name" type="text" name="bankname" autocomplete="organization" placeholder="Bank name" required></div>
+        </div>
+        <div class="form-field">
+          <label for="account-number">Account number</label>
+          <input id="account-number" type="text" name="accountnumber" inputmode="numeric" pattern="[0-9]+" autocomplete="off" placeholder="Account number" required>
+        </div>
+        <button class="button button--primary button--full" type="submit" name="bank">Request bank withdrawal</button>
+      </form>
+    </article>
+  </section>
+
+  <div class="notice">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-10v6m0-9h.01"/></svg>
+    <p><strong>Review your details.</strong> Incorrect wallet or bank information may delay your request. Contact support if you need help.</p>
+  </div>
+{% endblock %}

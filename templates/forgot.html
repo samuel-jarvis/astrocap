@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content%}
@@ -15,9 +15,9 @@
 
   <!-- Contact Us -->
   <div class="form signup">
-    <form id="log-in" action="{% url 'login' %}" method="POST">
+    <form id="log-in" action="{% url 'forgottenPassword' %}" method="POST">
 
-      <!-- {% csrf_token%} -->
+      {% csrf_token %}
 
       <h2 class="form-header">Please Enter Your Email and Recover Your Password</h2>
 

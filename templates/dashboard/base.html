@@ -1,0 +1,114 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08172f">
+  <title>{% block title %}Dashboard{% endblock %} | AstroCapital</title>
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body class="dashboard-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div class="sidebar-overlay" data-sidebar-close></div>
+  <aside class="sidebar" id="dashboard-sidebar" aria-label="Dashboard navigation">
+    <div class="sidebar__top">
+      <a class="brand" href="{% url 'dashboard' %}" aria-label="AstroCapital dashboard">
+        <span class="brand__mark" aria-hidden="true">A</span>
+        <span class="brand__name">Astro<span>Capital</span></span>
+      </a>
+      <button class="icon-button sidebar__close" type="button" data-sidebar-close aria-label="Close navigation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar__nav">
+      <p class="sidebar__label">Workspace</p>
+      <a class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}is-active{% endif %}" href="{% url 'dashboard' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></svg>
+        <span>Overview</span>
+      </a>
+      <a class="nav-item {% if request.resolver_match.url_name == 'deposit' %}is-active{% endif %}" href="{% url 'deposit' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg>
+        <span>Deposit</span>
+      </a>
+      <a class="nav-item {% if request.resolver_match.url_name == 'withdraw' %}is-active{% endif %}" href="{% url 'withdraw' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0 4 4m-4-4L8 7M5 19h14"/></svg>
+        <span>Withdraw</span>
+      </a>
+      <a class="nav-item {% if request.resolver_match.url_name == 'transactions' %}is-active{% endif %}" href="{% url 'transactions' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h12m0 0-3-3m3 3-3 3m7 7H8m0 0 3-3m-3 3 3 3"/></svg>
+        <span>Transactions</span>
+      </a>
+
+      <p class="sidebar__label sidebar__label--spaced">Account</p>
+      <a class="nav-item {% if request.resolver_match.url_name == 'profile' %}is-active{% endif %}" href="{% url 'profile' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 7a7 7 0 0 0-14 0"/></svg>
+        <span>Profile</span>
+      </a>
+      <a class="nav-item {% if request.resolver_match.url_name == 'support' %}is-active{% endif %}" href="{% url 'support' %}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18v2l3-2h9a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v8a3 3 0 0 0 1 2.24V18Z"/></svg>
+        <span>Support</span>
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar-user">
+        <span class="avatar">{{ user.first_name|first|default:"A"|upper }}{{ user.last_name|first|upper }}</span>
+        <span class="sidebar-user__copy">
+          <strong>{{ user.get_full_name|default:user.username }}</strong>
+          <small>Verified account</small>
+        </span>
+      </div>
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button class="signout-button" type="submit" aria-label="Sign out">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5m4-4 4-3-4-3m4 3H9"/></svg>
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="dashboard-main" id="main-content">
+    <header class="topbar">
+      <div class="topbar__heading">
+        <button class="icon-button menu-button" type="button" data-sidebar-open aria-controls="dashboard-sidebar" aria-expanded="false" aria-label="Open navigation">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div>
+          <p class="eyebrow">{% block eyebrow %}Client portal{% endblock %}</p>
+          <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+        </div>
+      </div>
+      <div class="topbar__meta">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Account active</span>
+      </div>
+    </header>
+
+    <div class="content-wrap">
+      {% if messages %}
+        <div class="messages" aria-live="polite">
+          {% for message in messages %}
+            <div class="message message--{{ message.tags|default:'info' }}">
+              <span>{{ message }}</span>
+              <button type="button" data-dismiss-message aria-label="Dismiss message">&times;</button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+
+      <footer class="dashboard-footer">
+        <span>&copy; 2026 AstroCapital Investments</span>
+        <a href="{% url 'support' %}">Help &amp; support</a>
+      </footer>
+    </div>
+  </main>
+
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

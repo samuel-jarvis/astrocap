@@ -1,0 +1,53 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Transactions{% endblock %}
+{% block eyebrow %}Account activity{% endblock %}
+{% block page_title %}Transactions{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <div>
+      <h2>Your financial activity</h2>
+      <p>Track deposits, withdrawals, and transfers associated with your account.</p>
+    </div>
+    <a class="button button--primary" href="{% url 'deposit' %}">New deposit</a>
+  </section>
+
+  <section class="panel table-panel">
+    <div class="panel__header">
+      <div>
+        <p class="eyebrow">History</p>
+        <h2>All transactions</h2>
+      </div>
+      <span class="pill">Newest first</span>
+    </div>
+    <div class="table-wrap">
+      <table class="transactions-table">
+        <thead><tr><th>Type</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>
+          {% for invest in invests %}
+            <tr>
+              <td><span class="transaction-type"><span class="transaction-icon">{% if invest.trans_type == 'Withdrawal' %}&uarr;{% else %}&darr;{% endif %}</span>{{ invest.trans_type }}</span></td>
+              <td class="amount-cell">{{ invest.amount }}</td>
+              <td><span class="status-badge status-badge--{{ invest.status|lower }}">{{ invest.status }}</span></td>
+              <td>{{ invest.date|date:"M d, Y" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">
+                <div class="empty-state">
+                  <span class="empty-state__icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5V4Zm3 5h8m-8 4h8m-8 4h5"/></svg>
+                  </span>
+                  <h3>No transactions yet</h3>
+                  <p>Your account activity will appear here after your first transaction.</p>
+                  <a class="button button--primary" href="{% url 'deposit' %}">Fund your account</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

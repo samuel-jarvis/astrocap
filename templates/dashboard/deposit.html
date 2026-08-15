@@ -1,0 +1,92 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Deposit{% endblock %}
+{% block eyebrow %}Manage funds{% endblock %}
+{% block page_title %}Deposit funds{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <div>
+      <h2>Choose how you want to fund your account</h2>
+      <p>Bitcoin deposits are available directly. For assisted payment methods, our admin team will provide the latest payment details.</p>
+    </div>
+    <span class="security-note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.9 8.3 7 10 4.1-1.7 7-5.4 7-10V6l-7-3Zm-3 9 2 2 4-4"/></svg>
+      Secure funding
+    </span>
+  </section>
+
+  <section class="deposit-layout" id="bitcoin-details">
+    <article class="panel wallet-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Bitcoin wallet</p>
+          <h2>Your deposit address</h2>
+        </div>
+        <span class="network-badge">BTC network</span>
+      </div>
+      <p class="muted">Only send Bitcoin (BTC) to this address. Sending another asset may result in permanent loss.</p>
+      <div class="copy-field">
+        <input id="bitcoin-wallet-address" type="text" value="bc1q9wse6fzvutsz2eh8sy7egje9zjn0ljx3h27h2n" readonly aria-label="Bitcoin wallet address">
+        <button class="button button--primary" type="button" data-copy-target="bitcoin-wallet-address">Copy address</button>
+      </div>
+      <div class="notice notice--warning">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3 20h18L12 4Zm0 6v4m0 3h.01"/></svg>
+        <p><strong>Double-check before sending.</strong> Crypto transfers cannot be reversed once submitted.</p>
+      </div>
+    </article>
+
+    <article class="panel steps-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>Complete your deposit</h2>
+        </div>
+      </div>
+      <ol class="step-list">
+        <li><span>1</span><div><strong>Purchase Bitcoin</strong><p>Use a trusted exchange or your existing Bitcoin wallet.</p></div></li>
+        <li><span>2</span><div><strong>Send to your wallet</strong><p>Copy the address shown here, paste it into your wallet, and confirm the network.</p></div></li>
+        <li><span>3</span><div><strong>Wait for confirmation</strong><p>Your account will be updated after the blockchain transfer is confirmed.</p></div></li>
+      </ol>
+    </article>
+  </section>
+
+  <section class="payment-grid" aria-label="Deposit methods">
+    <article class="payment-card payment-card--featured">
+      <div class="payment-card__top">
+        <span class="payment-logo payment-logo--bitcoin">&#8383;</span>
+        <span class="pill pill--success">Available now</span>
+      </div>
+      <h3>Bitcoin</h3>
+      <p>Send BTC directly to your dedicated AstroCapital wallet address.</p>
+      <a class="text-link" href="#bitcoin-details">View wallet details</a>
+    </article>
+    <article class="payment-card">
+      <div class="payment-card__top">
+        <span class="payment-logo payment-logo--paypal">P</span>
+        <span class="pill">Assisted</span>
+      </div>
+      <h3>PayPal</h3>
+      <p>Contact an admin for current PayPal deposit instructions and confirmation details.</p>
+      <a class="text-link" href="{% url 'support' %}">Contact admin</a>
+    </article>
+    <article class="payment-card">
+      <div class="payment-card__top">
+        <span class="payment-logo payment-logo--cashapp">$</span>
+        <span class="pill">Assisted</span>
+      </div>
+      <h3>Cash App</h3>
+      <p>Contact an admin for the correct Cash App details before sending any funds.</p>
+      <a class="text-link" href="{% url 'support' %}">Contact admin</a>
+    </article>
+    <article class="payment-card">
+      <div class="payment-card__top">
+        <span class="payment-logo payment-logo--venmo">V</span>
+        <span class="pill">Assisted</span>
+      </div>
+      <h3>Venmo</h3>
+      <p>Contact an admin for up-to-date Venmo deposit information and assistance.</p>
+      <a class="text-link" href="{% url 'support' %}">Contact admin</a>
+    </article>
+  </section>
+{% endblock %}
